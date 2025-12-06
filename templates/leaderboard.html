@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% block content %}
+    <div class="leaderboard-container">
+        <h1>Top Scores</h1>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Game</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if scores %}
+                    {% for score in scores %}
+                    <tr>
+                        <td>{{ loop.index }}</td> <!-- loop.index gives 1, 2, 3, etc. -->
+                        <td>{{ score.username }}</td>
+                        <td>{{ score.game_id | capitalize }}</td>
+                        <td>{{ score.score }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">No scores submitted yet. Go play!</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

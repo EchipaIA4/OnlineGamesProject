@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Game Selection{% endblock %}
+
+{% block content %}
+    <div class="game-grid-container">
+        <h1>Select a Game</h1>
+        <div class="game-grid">
+            
+            <!-- Flask loops through 'games_list' and creates a grid item for each -->
+            {% for game in games %}
+            <!-- Fixed URL to main.play_game -->
+            <a href="{{ url_for('main.play_game', game_id=game.id) }}" class="game-item">
+                <!-- 
+                  NOTE: Ensure thumbnail images exist in:
+                  static/images/pong_thumbnail.png
+                  static/images/snake_thumbnail.png
+                -->
+                <img src="{{ game.thumb }}" alt="{{ game.title }}" onerror="this.src='https://placehold.co/200x150/252525/FFF?text={{ game.title }}'">
+                <div class="game-title">{{ game.title }}</div>
+            </a>
+            {% endfor %}
+
+            <!-- Add empty boxes for styling alignment -->
+            <div class="game-item-empty"></div>
+            <div class="game-item-empty"></div>
+            
+        </div>
+    </div>
+{% endblock %}
