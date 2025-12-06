@@ -3,45 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Game Hub{% endblock %}</title>
-    <!-- Link our CSS file -->
+    <title>{% block title %}Game Hub{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar">
-        <a href="{{ url_for('main.home') }}" class="nav-brand">Game Hub</a>
+
+    <nav class="dashboard-sidebar">
+        <a href="{{ url_for('main.home') }}" class="nav-brand">GameHub</a>
+        
         <div class="nav-links">
-            <a href="{{ url_for('main.leaderboard') }}">Leaderboard</a>
-            
-            <!-- This is the magic! current_user is available everywhere -->
+            <a href="{{ url_for('main.home') }}" class="nav-link">
+                Games Library
+            </a>
+            <a href="{{ url_for('main.leaderboard') }}" class="nav-link">
+                Leaderboard
+            </a>
+        </div>
+
+        <div class="user-section">
             {% if current_user.is_authenticated %}
-                <a href="#">Profile ({{ current_user.username }})</a>
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
+                <div class="nav-link" style="cursor: default; color: var(--text-primary);">
+                    User: {{ current_user.username }}
+                </div>
+                <a href="{{ url_for('auth.logout') }}" class="nav-link" style="color: var(--danger-color);">
+                    Logout
+                </a>
             {% else %}
-                <a href="{{ url_for('auth.login') }}">Login</a>
-                <a href="{{ url_for('auth.register') }}">Register</a>
+                <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="nav-link">Register</a>
             {% endif %}
         </div>
     </nav>
 
-    <!-- This container will show "flash" messages (e.g., "Logged in!") -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages">
-            {% for category, message in messages %}
-                <div class="flash-message flash-{{ category }}">{{ message }}</div>
-            {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
+    <main class="dashboard-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
-    <main>
-        <!-- The content of other pages will be injected here -->
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="site-footer">
-        <p>&copy; 2025 My Game Hub</p>
-    </footer>
 </body>
 </html>
