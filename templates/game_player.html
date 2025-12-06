@@ -4,19 +4,11 @@
 
 {% block content %}
     <div class="game-player-container">
-        <h2>Playing: {{ title | capitalize }}</h2>
-        <p>Your game is loading below. Your score will be saved automatically!</p>
-        
-        <!-- 
-          This iframe loads your Pygbag game.
-          The 'game_url' comes from the 'play_game' route in app.py
-        -->
-        <iframe src="{{ game_url }}" class="game-iframe"></iframe>
-
-        <div class="game-controls">
-            <!-- Fixed URL to main.home -->
-            <a href="{{ url_for('main.home') }}" class="btn">Back to Game Selection</a>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>{{ title | capitalize }}</h2>
+            <a href="{{ url_for('main.home') }}" class="btn" style="background-color: var(--card-bg); color: white;">&larr; Exit</a>
         </div>
+
+        <iframe src="{{ game_url }}" class="game-iframe" style="width: 100%; height: 75vh; border: none; border-radius: 12px; background: black;"></iframe>
     </div>
 {% endblock %}
-
