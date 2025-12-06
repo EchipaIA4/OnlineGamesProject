@@ -1,6 +1,14 @@
 class GameState:
     flags = {}
     logs = []
+    convertor_state = {
+        "selected_file": None,
+        "mode": "Base64"
+    }
+    locked_program_state = {
+        "input": ["-", "-", "-", "-"],
+        "guessed": False
+    }
 
     def set_flag(name, value = True):
         GameState.flags[name] = value
