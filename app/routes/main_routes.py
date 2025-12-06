@@ -11,6 +11,7 @@ def home():
     games_list = [
         {'id': 'pong', 'title': 'Classic Pong', 'thumb': url_for('static', filename='images/pong_thumbnail.png')},
         {'id': 'snake', 'title': 'Pixel Snake', 'thumb': url_for('static', filename='images/snake_thumbnail.png')},
+        {'id': 'ghost_in_the_files', 'title': 'Ghost in the Files', 'thumb': url_for('static', filename='images/ghost_in_the_files_thumbnail.png')}
     ]
     return render_template('index.html', games=games_list)
 
