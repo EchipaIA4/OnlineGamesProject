@@ -1,0 +1,57 @@
+import pygame
+from settings import scale_factor
+
+class Button:
+    def __init__(self, rect, text, color, hover_color, text_color, font, callback, sprite_render = True):
+        self.rect = pygame.Rect(rect)
+        self.text = text
+        self.color = color
+        self.hover_color = hover_color
+        self.text_color = text_color
+        self.font = font
+        self.callback = callback
+        
+        self.sprite = pygame.image.load("assets/sprites/button.png").convert_alpha()
+        self.sprite_hover = pygame.image.load("assets/sprites/button_hovered.png").convert_alpha()
+        self.sprite_pressed = pygame.image.load("assets/sprites/button_clicked.png").convert_alpha()
+        self.sprite_render = sprite_render
+        
+        self.hovered = False
+        self.pressed = False
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            pos = event.pos
+            self.hovered = self.rect.collidepoint((pos[0] / scale_factor, pos[1] / scale_factor))
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.hovered:
+                self.pressed = True
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            if self.pressed and self.hovered:
+                self.callback()
+            self.pressed = False
+    
+    def update(self):
+        pass
+    
+    def render(self, surface):
+        if not self.sprite_render:
+            return
+        
+        if self.pressed and self.sprite_pressed:
+            sprite = self.sprite_pressed
+        elif self.hovered and self.sprite_hover:
+            sprite = self.sprite_hover
+        else:
+            sprite = self.sprite
+        
+        if sprite:
+            surface.blit(pygame.transform.scale(sprite, self.rect.size), self.rect.topleft)
+        
+        if self.text:
+            label = self.font.render(self.text, True, self.text_color)
+            pos = [self.rect.x + self.rect.width / 2 - self.font.size(self.text)[0] / 2, self.rect.y + self.rect.height / 2 - self.font.size(self.text)[1] / 2]
+            if self.pressed:
+                pos[0] += self.rect.width / 200 * 2
+                pos[1] += self.rect.height / 50 * 2
+            surface.blit(label, pos)
