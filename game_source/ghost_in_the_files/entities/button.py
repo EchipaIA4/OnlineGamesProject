@@ -2,7 +2,7 @@ import pygame
 from settings import scale_factor
 
 class Button:
-    def __init__(self, rect, text, color, hover_color, text_color, font, callback, sprite_render = True):
+    def __init__(self, rect, text, color, hover_color, text_color, font, callback, sprite_render = True, sprite_path = "assets/sprites/button.png", sprite_hover_path = "assets/sprites/button_hovered.png", sprite_pressed_path = "assets/sprites/button_clicked.png"):
         self.rect = pygame.Rect(rect)
         self.text = text
         self.color = color
@@ -11,9 +11,9 @@ class Button:
         self.font = font
         self.callback = callback
         
-        self.sprite = pygame.image.load("assets/sprites/button.png").convert_alpha()
-        self.sprite_hover = pygame.image.load("assets/sprites/button_hovered.png").convert_alpha()
-        self.sprite_pressed = pygame.image.load("assets/sprites/button_clicked.png").convert_alpha()
+        self.sprite = pygame.image.load(sprite_path).convert_alpha()
+        self.sprite_hover = pygame.image.load(sprite_hover_path).convert_alpha()
+        self.sprite_pressed = pygame.image.load(sprite_pressed_path).convert_alpha()
         self.sprite_render = sprite_render
         
         self.hovered = False
@@ -35,18 +35,16 @@ class Button:
         pass
     
     def render(self, surface):
-        if not self.sprite_render:
-            return
-        
-        if self.pressed and self.sprite_pressed:
-            sprite = self.sprite_pressed
-        elif self.hovered and self.sprite_hover:
-            sprite = self.sprite_hover
-        else:
-            sprite = self.sprite
-        
-        if sprite:
-            surface.blit(pygame.transform.scale(sprite, self.rect.size), self.rect.topleft)
+        if self.sprite_render == True:
+            if self.pressed and self.sprite_pressed:
+                sprite = self.sprite_pressed
+            elif self.hovered and self.sprite_hover:
+                sprite = self.sprite_hover
+            else:
+                sprite = self.sprite
+            
+            if sprite:
+                surface.blit(pygame.transform.scale(sprite, self.rect.size), self.rect.topleft)
         
         if self.text:
             label = self.font.render(self.text, True, self.text_color)
