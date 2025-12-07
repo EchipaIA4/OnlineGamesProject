@@ -1,3 +1,5 @@
+import pygame
+
 class GameState:
     flags = {}
     logs = []
@@ -9,6 +11,8 @@ class GameState:
         "input": ["-", "-", "-", "-"],
         "guessed": False
     }
+    game_time_minutes = 6 * 60
+    time_update = pygame.time.get_ticks()
 
     def set_flag(name, value = True):
         GameState.flags[name] = value
