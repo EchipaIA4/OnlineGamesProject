@@ -86,6 +86,7 @@ class FileIcon:
             if inventory:
                 inventory.remove_item(item)
             self.sprite = pygame.image.load("assets/sprites/file.png").convert_alpha()
+            self.sprite = pygame.transform.scale(self.sprite, (63, 63))
             self.rect = self.sprite.get_rect(center=self.block.center)
        
     def render(self, surface):
