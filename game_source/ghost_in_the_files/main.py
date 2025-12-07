@@ -28,7 +28,7 @@ def switch_scene(scene_name):
 
 scenes = {
     "main_menu": MainMenu(surface, switch_scene, cursor),
-    "boot_menu": BootMenu(surface, switch_scene),
+    "boot_menu": BootMenu(surface, switch_scene, cursor),
     "os1": Desktop(surface, inventory, switch_scene, cursor, "os1"),
     "os2": Desktop(surface, inventory, switch_scene, cursor, "os2")
 }
