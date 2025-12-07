@@ -10,10 +10,13 @@ class ProgramWindow:
         self.rect = pygame.Rect(self.x, self.y, program_width, program_height)
         self.header_rect = pygame.Rect(self.x, self.y, program_width, program_header_height)
         
+        self.window_sprite = pygame.image.load("assets/sprites/program_window.png")
+        self.window_sprite = pygame.transform.scale(self.window_sprite, (program_width, program_height))
+        
         self.font = pygame.font.SysFont(None, (int)(24 * screen_width / 1031))
-        self.button_size = 20 * screen_width / 1031
+        self.button_size = 30 * screen_width / 1031
         self.exit_button = Button(
-            rect = (self.x + program_width - self.button_size * 1.5, self.y + (program_header_height - self.button_size) / 2, self.button_size, self.button_size),
+            rect = (self.x + program_width - self.button_size * 2.2, self.y + (program_header_height - self.button_size) / 2 + 10, self.button_size, self.button_size),
             text = "X",
             color = button_color,
             hover_color = button_hover_color,
@@ -47,11 +50,9 @@ class ProgramWindow:
     def render(self, screen):
         if not self.active:
             return
-                
-        pygame.draw.rect(screen, (25, 25, 25), self.rect)
-        pygame.draw.rect(screen, (60, 60, 60), self.header_rect)
-        title = self.font.render(self.title, True, text_color)
-        screen.blit(title, (self.rect.x + program_width / 2 - title.get_width() / 2, self.rect.y + program_header_height / 2 - title.get_height() / 2))
+        
+        screen.blit(self.window_sprite, self.rect.topleft)
+        
         self.exit_button.render(screen)
         
         if self.content_callback:

@@ -10,7 +10,7 @@ text_color = (255, 255, 255)
 
 desktop_grid_rows, desktop_grid_cols = 4, 7
 file_width, file_height = 60, 50
-program_width, program_height, program_header_height = 600, 450, 30
+program_width, program_height, program_header_height = 750, 500, 50
 properties_menu_width, properties_menu_height = 40, 100
 
 slot_count = 6
