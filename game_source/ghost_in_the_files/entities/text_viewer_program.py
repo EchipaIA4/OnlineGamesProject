@@ -6,7 +6,7 @@ class TextViewerProgram:
         self.screen = screen
         self.text = text
         self.font = pygame.font.SysFont(None, (int)(24 * screen_width / 1031))
-        self.x = (screen_width - program_width) / 2
+        self.x = (screen_width - program_width + 100) / 2
         self.y = (screen_height - program_height) / 2 + program_header_height
         self.line_height = 25 * screen_height / 580
     
@@ -18,7 +18,7 @@ class TextViewerProgram:
         
     def render(self, rect):
         lines = self.text.split("\n")
-        off_y = rect.y + program_header_height + 20 * screen_height / 580
+        off_y = self.y + program_header_height + 20 * screen_height / 580
         for line in lines:
-            self.screen.blit(self.font.render(line, True, text_color), (rect.x + 20 * screen_width / 1031, off_y))
+            self.screen.blit(self.font.render(line, True, text_color), (self.x + 20 * screen_width / 1031, off_y))
             off_y += self.line_height

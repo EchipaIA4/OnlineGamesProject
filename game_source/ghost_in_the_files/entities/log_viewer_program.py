@@ -6,7 +6,7 @@ class LogViewerProgram:
     def __init__(self, screen):
         self.screen = screen
         self.font = pygame.font.SysFont(None, 22)
-        self.x = (screen_width - program_width) / 2
+        self.x = (screen_width - program_width + 100) / 2
         self.y = (screen_height - program_height) / 2 + program_header_height
         self.line_height = 25
         self.scroll_offset = 0
@@ -21,7 +21,7 @@ class LogViewerProgram:
     
     def render(self, rect):
         logs = GameState.get_logs()
-        off_y = rect.y + program_header_height + 20 + self.scroll_offset
+        off_y = self.y + program_header_height + 20 + self.scroll_offset
         for line in logs:
-            self.screen.blit(self.font.render(line, True, text_color), (rect.x + 20, off_y))
+            self.screen.blit(self.font.render(line, True, text_color), (self.x + 20, off_y))
             off_y += self.line_height
