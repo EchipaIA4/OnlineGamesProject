@@ -30,7 +30,7 @@ class Desktop:
         self.files = []
         self.file_font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
         
-        self.pause_menu = PauseMenu(screen_width * 3 / 4, bar_height, screen_width / 4 - self.inventory.slot_size * 1.5, screen_height / 3, self.switch_scene, self.screen)
+        self.pause_menu = PauseMenu(screen_width * 3 / 4, bar_height, screen_width / 4 - self.inventory.slot_size * 1.1, screen_height / 4.25, self.switch_scene, self.screen)
         self.menu_button_rect = pygame.Rect(screen_width * 3 / 4 + 15, bar_height / 4, screen_width / 4 - 40, bar_height / 2)
         self.menu_button = Button(
             rect = pygame.Rect(screen_width * 3 / 4, 0, screen_width / 4 - 10, bar_height),
