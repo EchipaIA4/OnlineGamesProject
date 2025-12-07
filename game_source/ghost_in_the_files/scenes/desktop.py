@@ -1,4 +1,3 @@
-from typing import Text
 import pygame
 from settings import bar_color, screen_width, screen_height, bar_height, text_color, button_hover_color, desktop_grid_rows, desktop_grid_cols
 from entities.game_state import GameState
@@ -91,18 +90,16 @@ class Desktop:
             self.files.append(encrypted_file)
             self.grid.files = self.files
         else:
-            kernel_secure_file = FileIcon(
-                self.grid.blocks[1],
+            kernel_file = FileIcon(
+                self.grid.blocks[0],
                 self.file_font,
-                "kernel_secure.mem",
-                lambda: self.open_program("kernel_secure.mem")
+                "kernel.mem",
+                lambda: self.open_program("kernel.mem")
             )
             
-            self.files.append(kernel_secure_file)
+            self.files.append(kernel_file)
         
         
-        GameState.add_log("Boot sequence initialized.")
-        GameState.add_log("Desktop environment loaded successfully!")
         GameState.set_flag("found_key")
     
     def open_program(self, title, content_callback = None):
@@ -125,8 +122,8 @@ class Desktop:
             if note:
                 viewer = TextViewerProgram(self.screen, note.text)
                 self.active_program = ProgramWindow(title, lambda: viewer.render(self.active_program.rect))
-        elif title == "kernel_secure.mem":
-            locked_file = next((file for file in self.files if file.name == "kernel_secure.mem"), None)
+        elif title == "kernel.mem":
+            locked_file = next((file for file in self.files if file.name == "kernel.mem"), None)
             if locked_file:
                 program = LockedProgram(self.screen, locked_file)
                 self.active_program = program.window

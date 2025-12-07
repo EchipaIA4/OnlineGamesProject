@@ -1,6 +1,6 @@
-from warnings import warn
 import pygame
 from settings import screen_width, screen_height
+from entities.game_state import GameState
 
 class BootMenu:
     def __init__(self, screen, switch_scene):
@@ -10,6 +10,9 @@ class BootMenu:
         self.title_font = pygame.font.SysFont("Courier", 34)
         self.options = ["OS 1.0", "OS 2.0", "Quit"]
         self.selected_option = 0
+        
+        GameState.add_log("Boot sequence initialized.")
+        GameState.add_log("Desktop environment loaded successfully!")
     
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
