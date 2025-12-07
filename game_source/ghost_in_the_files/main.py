@@ -17,21 +17,23 @@ cursor = Cursor()
 inventory = Inventory()
 pygame.mouse.set_visible(False)
 
+scenes = {}
+
 def switch_scene(scene_name):
     global current_scene
-    if scene_name == "main_menu":
-        current_scene = MainMenu(surface, switch_scene, cursor)
-    elif scene_name == "os1":
-        current_scene = Desktop(surface, inventory, switch_scene, cursor, "os1")
-    elif scene_name == "os2":
-        current_scene = Desktop(surface, inventory, switch_scene, cursor, "os2")
-    elif scene_name == "boot_menu":
-        current_scene = BootMenu(surface, switch_scene)
-    elif scene_name == "quit":
+    if scene_name == "quit":
         pygame.quit()
         exit()
+    current_scene = scenes[scene_name]
 
-switch_scene("main_menu")
+scenes = {
+    "main_menu": MainMenu(surface, switch_scene, cursor),
+    "boot_menu": BootMenu(surface, switch_scene),
+    "os1": Desktop(surface, inventory, switch_scene, cursor, "os1"),
+    "os2": Desktop(surface, inventory, switch_scene, cursor, "os2")
+}
+
+current_scene = scenes["main_menu"]
 
 running = True
 while running:

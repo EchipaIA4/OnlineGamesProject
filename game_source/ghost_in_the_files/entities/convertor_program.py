@@ -1,5 +1,6 @@
 import pygame, base64, binascii
 from settings import screen_width, screen_height, program_header_height
+from entities.game_state import GameState
 from entities.program_window import ProgramWindow
 from entities.button import Button
 from entities.file_menu import FileMenu
@@ -9,25 +10,29 @@ class ConvertorProgram:
     def __init__(self, screen, desktop_files):
         self.screen = screen
         self.desktop_files = [file for file in desktop_files if file.name != "Convertor.exe"]
-        self.selected_file = None
+        
+        file_name = GameState.convertor_state.get("selected_file")
+        if file_name:
+            self.selected_file = next((file for file in self.desktop_files if file.name == file_name), None)
+        else:
+            self.selected_file = None
+        self.mode = GameState.convertor_state.get("mode", "Base64")
+        
         self.font = pygame.font.SysFont(None, (int)(24 * screen_width / 1031))
         self.msg_font = pygame.font.SysFont(None, (int)(32 * screen_width / 1031))
         self.error_message = ""
         self.message = ""
+        
         self.window = ProgramWindow(
             "Convertor",
             lambda: self.render(self.window.rect),
             process_event = self.handle_event,
             process_update = self.update
         )
-        self.mode = "Base64"
         
         gap = 100 * screen_width / 1031
         button_size = (160 * screen_width / 1031, 40 * screen_height / 580)
-        button_rect = (self.window.rect.centerx - gap / 2 - button_size[0], self.window.rect.y + self.window.rect.height * 4 /7)
-        mode_button_rect = (self.window.rect.centerx - button_size[0] / 2, self.window.rect.y + self.window.rect.height / 2.4)
-        self.mode_menu = FileMenu(self.screen, [FakeFile("Base64"), FakeFile("XOR7")], mode_button_rect[0], mode_button_rect[1] + button_size[1])
-        self.file_menu = FileMenu(self.screen, self.desktop_files, button_rect[0], button_rect[1] + button_size[1])
+        
         self.mode_button = Button(
             rect=(self.window.rect.centerx - button_size[0] / 2, self.window.rect.y + self.window.rect.height / 2.8, button_size[0], button_size[1]),
             text="Mode",
@@ -57,12 +62,19 @@ class ConvertorProgram:
             font=self.font,
             callback=self.decode_file
         )
+        
+        self.mode_menu = FileMenu(self.screen, [FakeFile("Base64"), FakeFile("XOR7")], self.mode_button.rect.x, self.mode_button.rect.bottom)
+        self.file_menu = FileMenu(self.screen, self.desktop_files, self.upload_button.rect.x, self.upload_button.rect.bottom)
     
     def open_mode_menu(self):
         self.mode_menu.toggle()
+        if self.file_menu.active == True:
+            self.file_menu.toggle()
     
     def open_file_menu(self):
         self.file_menu.toggle()
+        if self.mode_menu.active == True:
+            self.mode_menu.toggle()
     
     def decode_file(self):
         if not self.selected_file:
@@ -115,13 +127,17 @@ class ConvertorProgram:
         if self.file_menu:
             self.file_menu.handle_event(event)
             if self.file_menu and not self.file_menu.active:
-                self.selected_file = self.file_menu.selected_file
+                if self.file_menu.selected_file:
+                    self.selected_file = next((file for file in self.desktop_files if file.name == self.file_menu.selected_file.name), None)
+                    if self.selected_file is not None:
+                        GameState.convertor_state["selected_file"] = self.selected_file.name
         
         if self.mode_menu:
             self.mode_menu.handle_event(event)
             if self.mode_menu and not self.mode_menu.active:
                 if self.mode_menu.selected_file is not None:
                     self.mode = self.mode_menu.selected_file.name
+                    GameState.convertor_state["mode"] = self.mode
     
     def update(self):
         self.mode_button.update()
@@ -131,7 +147,7 @@ class ConvertorProgram:
     def render(self, rect):
         rect_size = (260 * screen_width / 1031, 60 * screen_height / 580)
         pygame.draw.rect(self.screen, (50, 50, 50), (rect.centerx - rect_size[0] / 2, rect.y + program_header_height + rect.height / 8, rect_size[0], rect_size[1]))
-        file_title = self.selected_file.name if self.selected_file else ""
+        file_title = self.selected_file.name if self.selected_file is not None else ""
         label = self.msg_font.render(file_title, True, (255, 255, 255))
         self.screen.blit(label, (rect.centerx - label.get_width() / 2, rect.y + program_header_height + rect.height / 8 + rect_size[1] / 2 - label.get_height() / 2))
         

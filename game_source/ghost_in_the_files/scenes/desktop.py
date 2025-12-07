@@ -1,4 +1,3 @@
-from typing import Text
 import pygame
 from settings import bar_color, screen_width, screen_height, bar_height, text_color, button_hover_color, desktop_grid_rows, desktop_grid_cols
 from entities.game_state import GameState
@@ -24,7 +23,7 @@ class Desktop:
         self.inventory = inventory
         self.grid = DesktopGrid(screen, self.inventory)
         self.active_program = None
-        
+
         self.files = []
         self.file_font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
         
@@ -91,18 +90,16 @@ class Desktop:
             self.files.append(encrypted_file)
             self.grid.files = self.files
         else:
-            kernel_secure_file = FileIcon(
-                self.grid.blocks[1],
+            kernel_file = FileIcon(
+                self.grid.blocks[0],
                 self.file_font,
-                "kernel_secure.mem",
-                lambda: self.open_program("kernel_secure.mem")
+                "kernel.mem",
+                lambda: self.open_program("kernel.mem")
             )
             
-            self.files.append(kernel_secure_file)
+            self.files.append(kernel_file)
         
         
-        GameState.add_log("Boot sequence initialized.")
-        GameState.add_log("Desktop environment loaded successfully!")
         GameState.set_flag("found_key")
     
     def open_program(self, title, content_callback = None):
@@ -125,8 +122,8 @@ class Desktop:
             if note:
                 viewer = TextViewerProgram(self.screen, note.text)
                 self.active_program = ProgramWindow(title, lambda: viewer.render(self.active_program.rect))
-        elif title == "kernel_secure.mem":
-            locked_file = next((file for file in self.files if file.name == "kernel_secure.mem"), None)
+        elif title == "kernel.mem":
+            locked_file = next((file for file in self.files if file.name == "kernel.mem"), None)
             if locked_file:
                 program = LockedProgram(self.screen, locked_file)
                 self.active_program = program.window
@@ -151,7 +148,7 @@ class Desktop:
         
         self.menu_button.handle_event(event)
         self.pause_menu.handle_event(event)
-        if not isinstance(self.active_program, LockedProgram) or not self.active_program.active:
+        if not (hasattr(self.active_program, "program") and isinstance(self.active_program.program, LockedProgram) and self.active_program.active):
             self.inventory.handle_event(event)
         for file in self.files:
             file.handle_event(event, self.grid, self.inventory)
@@ -162,14 +159,19 @@ class Desktop:
         self.menu_button.update()
         if self.active_program and self.active_program.active:
             self.active_program.update()
+        
+        now = pygame.time.get_ticks()
+        if now - GameState.time_update >= 1000:
+            GameState.game_time_minutes += 1
+            GameState.time_update = now
     
     def render(self):
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.background, (0, bar_height))
         pygame.draw.rect(self.screen, bar_color, (0, 0, screen_width, bar_height))
         
-        clock_label = self.font.render(str(pygame.time.get_ticks() // 1000), True, text_color)
-        self.screen.blit(clock_label, (screen_width / 2 - self.font.size(str(pygame.time.get_ticks()))[0] / 2, bar_height / 2 - self.font.size(str(pygame.time.get_ticks()))[1] / 2))
+        clock_label = self.font.render(f"{(GameState.game_time_minutes // 60) % 24:02d}:{GameState.game_time_minutes % 60:02d}", True, (255, 255, 255))
+        self.screen.blit(clock_label, (screen_width / 2 - clock_label.get_width() / 2, bar_height / 2 - clock_label.get_height() / 2))
         
         self.grid.render()
         

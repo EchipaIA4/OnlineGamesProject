@@ -1,6 +1,18 @@
+import pygame
+
 class GameState:
     flags = {}
     logs = []
+    convertor_state = {
+        "selected_file": None,
+        "mode": "Base64"
+    }
+    locked_program_state = {
+        "input": ["-", "-", "-", "-"],
+        "guessed": False
+    }
+    game_time_minutes = 6 * 60
+    time_update = pygame.time.get_ticks()
 
     def set_flag(name, value = True):
         GameState.flags[name] = value

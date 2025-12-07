@@ -2,13 +2,15 @@ import pygame
 from settings import file_width, file_height, text_color, slot_color, screen_width, scale_factor
 
 class FileMenu:
-    def __init__(self, screen, files, x, y, width=300):
+    def __init__(self, screen, files, x, y, width=260):
         self.screen = screen
         self.files = files
+        
         self.x = x
         self.y = y
         self.width = width
-        self.height = file_height + 10
+        self.height = file_height - 5
+        
         self.rects = []
         self.font = pygame.font.SysFont(None, 24)
         self.active = False
