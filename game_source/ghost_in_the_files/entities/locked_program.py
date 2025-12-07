@@ -3,11 +3,13 @@ from settings import screen_width, program_header_height
 from entities.game_state import GameState
 from .program_window import ProgramWindow
 from .button import Button
+from .memory_chip import MemoryChip
 
 class LockedProgram:
-    def __init__(self, screen, file_icon, code = "9345"):
+    def __init__(self, screen, file_icon, inventory, code = "9345"):
         self.screen = screen
         self.file_icon = file_icon
+        self.inventory = inventory
         
         self.code = code
         self.input = GameState.locked_program_state.get("input", ["-", "-", "-", "-"]).copy()
@@ -36,6 +38,9 @@ class LockedProgram:
         )
     
     def handle_event(self, event):
+        if GameState.locked_program_state["guessed"] == True:
+            return
+        
         self.enter_button.handle_event(event)
         changed = False
         
@@ -62,12 +67,15 @@ class LockedProgram:
         self.enter_button.update()
     
     def check_code(self):
-        if "".join(self.input) == self.code:
+        if "".join(self.input) == self.code and GameState.locked_program_state["guessed"] == False:
             self.message = "Correct"
             self.file_icon.locked = False
             self.guessed = True
             GameState.locked_program_state["guessed"] = True
             GameState.locked_program_state["input"] = self.input.copy()
+            
+            memory_chip = MemoryChip(slot_size = self.inventory.slot_size)
+            self.inventory.add_item(memory_chip)
         else:
             self.message = "Wrong code!"
             
@@ -84,7 +92,10 @@ class LockedProgram:
             label = self.font.render(digit, True, (255, 255, 255))
             self.screen.blit(label, (rect.centerx - spacing * 3 / 2 + i * spacing - label.get_width() / 2, rect.y + program_header_height + rect.height / 3 + 20))
         
-        if self.message:
+        if GameState.locked_program_state["guessed"] == True:
+            self.message = "Correct"
+        
+        if self.message or GameState.locked_program_state["guessed"] == True:
             color = (0, 255, 0) if "Correct" in self.message else (255, 0, 0)
             msg_label = self.msg_font.render(self.message, True, color)
             self.screen.blit(msg_label, (rect.centerx - msg_label.get_width() / 2, rect.y + program_header_height + rect.height / 2))
