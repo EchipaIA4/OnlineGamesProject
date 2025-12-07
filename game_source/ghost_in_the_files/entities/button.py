@@ -9,6 +9,7 @@ class Button:
         self.hover_color = hover_color
         self.text_color = text_color
         self.font = font
+        self.no_callback = False
         self.callback = callback
         
         self.sprite = pygame.image.load(sprite_path).convert_alpha()
@@ -27,7 +28,7 @@ class Button:
             if self.hovered:
                 self.pressed = True
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            if self.pressed and self.hovered:
+            if self.pressed and self.hovered and not self.no_callback:
                 self.callback()
             self.pressed = False
     

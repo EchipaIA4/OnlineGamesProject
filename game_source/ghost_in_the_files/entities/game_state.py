@@ -11,6 +11,21 @@ class GameState:
         "input": ["-", "-", "-", "-"],
         "guessed": False
     }
+    ram_puzzle_state = {
+        "grid": [
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+        ],
+        "game_started": False,
+        "memory_chip_inserted": False,
+        "win": False,
+        "big_block_appeared": False,
+        "reward_given": False
+    }
     game_time_minutes = 6 * 60
     time_update = pygame.time.get_ticks()
 

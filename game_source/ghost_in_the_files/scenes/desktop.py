@@ -1,3 +1,4 @@
+from os import sysconf
 import pygame
 from settings import bar_color, screen_width, screen_height, bar_height, text_color, button_hover_color, desktop_grid_rows, desktop_grid_cols
 from entities.game_state import GameState
@@ -9,13 +10,13 @@ from entities.pause_menu import PauseMenu
 from entities.desktop_grid import DesktopGrid
 from entities.inventory import Inventory
 from entities.key import Key
-from entities.null_pointer import NullPointer
 from entities.system_core import SystemCore
 from entities.entropy_flask import EntropyFlask
 from entities.text_viewer_program import TextViewerProgram
 from entities.convertor_program import ConvertorProgram
 from entities.log_viewer_program import LogViewerProgram
 from entities.locked_program import LockedProgram
+from puzzles.ram_puzzle import RamPuzzle
 
 class Desktop:
     def __init__(self, screen, inventory, switch_scene, cursor, os = "os1"):
@@ -48,15 +49,13 @@ class Desktop:
                
         if os == "os1":
             master_key = Key(slot_size = self.inventory.slot_size)
-            null_pointer = NullPointer(slot_size = self.inventory.slot_size)
             system_core = SystemCore(slot_size = self.inventory.slot_size)
             entropy_flask = EntropyFlask(slot_size = self.inventory.slot_size)
             self.inventory.add_item(master_key)
-            self.inventory.add_item(null_pointer)
             self.inventory.add_item(system_core)
             self.inventory.add_item(entropy_flask)
            
-            self.readme_content = "VG8gZmluZCB0aGUga2V5LCByZWFkIHRoZSBsb2dzLi4u"
+            self.readme_content = "TGV0IGFsbCBiZSBlbXB0eSEK"
             readme = FileIcon(
                 self.grid.blocks[0],
                 self.file_font,
@@ -109,7 +108,16 @@ class Desktop:
                 system_file = True
             )
             
+            ram_file = FileIcon(
+                self.grid.blocks[1],
+                self.file_font,
+                "ram.mem",
+                lambda: self.open_program("ram.mem"),
+                system_file = True
+            )
+            
             self.files.append(kernel_file)
+            self.files.append(ram_file)
         
         
         GameState.set_flag("found_key")
@@ -138,6 +146,11 @@ class Desktop:
             locked_file = next((file for file in self.files if file.name == "kernel.mem"), None)
             if locked_file:
                 program = LockedProgram(self.screen, locked_file, self.inventory)
+                self.active_program = program.window
+        elif title == "ram.mem":
+            ram = next((file for file in self.files if file.name == "ram.mem"), None)
+            if ram:
+                program = RamPuzzle(self.screen, self.inventory)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)
