@@ -3,7 +3,8 @@ from settings import scale_factor
 
 class Cursor:
     def __init__(self, path = "assets/sprites/cursor.png"):
-        self.image = pygame.image.load(path).convert_alpha()
+        self.sprite = pygame.image.load(path).convert_alpha()
+        self.sprite = pygame.transform.scale(self.sprite, (24, 24))
         self.pos = pygame.mouse.get_pos()
         
         self.click_in_sound = pygame.mixer.Sound("assets/sounds/click_in.wav")
@@ -25,4 +26,4 @@ class Cursor:
         self.pos = (pos[0] / scale_factor, pos[1] / scale_factor)
     
     def render(self, surface):
-        surface.blit(self.image, self.pos)
+        surface.blit(self.sprite, self.pos)

@@ -52,6 +52,8 @@ class LockedProgram:
                         self.input[i] = event.unicode
                         changed = True
                         break
+            elif event.key == pygame.K_RETURN:
+                self.check_code()
         
         if changed:
             GameState.locked_program_state["input"] = self.input.copy()
