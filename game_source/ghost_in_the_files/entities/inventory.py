@@ -4,13 +4,19 @@ from settings import screen_width, screen_height, bar_height, slot_count, slot_c
 class Inventory:
     def __init__(self):
         self.items = []
-        self.margin = 50 * screen_width / 1031
+        
+        self.margin = 15 * screen_width / 1031
         self.gap = 8 * screen_width / 1031
         self.slot_size = (int)((screen_height - (slot_count + 1) * self.gap - 2 * self.margin) / slot_count)
+        
         self.x = screen_width - self.slot_size - 10 * screen_width / 1031
         self.y = bar_height
-        self.font = pygame.font.SysFont(None, (int)(20 * screen_width / 1031))
+        
+        self.font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
         self.hovered_slot = None
+        
+        self.slot_sprite = pygame.image.load("assets/sprites/inventory_slot.png")
+        self.slot_sprite = pygame.transform.scale(self.slot_sprite, (self.slot_size, self.slot_size))
     
     def add_item(self, item):
         self.items.append(item)
@@ -22,19 +28,29 @@ class Inventory:
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if pygame.K_1 <= event.key <= pygame.K_8:
-                self.hovered_slot = event.key - pygame.K_1
+                if event.key - pygame.K_1 == self.hovered_slot:
+                    self.hovered_slot = None
+                else:
+                    self.hovered_slot = event.key - pygame.K_1
     
     def render(self, screen):
         for i in range(slot_count):
-            if self.hovered_slot == i:
-                color = slot_hovered_color
-            else:
-                color = slot_color
             rect = pygame.Rect(self.x, self.y + i * (self.slot_size + self.gap) + self.margin, self.slot_size, self.slot_size)
-            pygame.draw.rect(screen, color, rect)
+            
+            screen.blit(self.slot_sprite, rect.topleft)
+            
+            if self.hovered_slot == i:
+                border = 10
+                inner_rect = pygame.Rect(rect.x + border, rect.y + border, rect.width - 2 * border, rect.height - 2 * border)
+                overlay = pygame.Surface((inner_rect.width, inner_rect.height), pygame.SRCALPHA)
+                overlay.fill((128, 128, 128, 100))
+                screen.blit(overlay, inner_rect.topleft)
             
             if i < len(self.items):
-                self.items[i].render(screen, rect)
+                item = self.items[i]
+                item_sprite = pygame.transform.scale(item.sprite, (self.slot_size * 0.5, self.slot_size * 0.5))
+                screen.blit(item_sprite, (rect.centerx - item_sprite.get_width() / 2, rect.centery - item_sprite.get_height() / 2))
+                
                 if self.hovered_slot == i:
                     item_name = self.font.render(self.items[i].name, True, text_color)
-                    screen.blit(item_name, (rect.centerx - item_name.get_width() / 2, rect.y - item_name.get_height() * 1.5))
+                    screen.blit(item_name, (rect.centerx - item_name.get_width() / 2, rect.y - item_name.get_height()))

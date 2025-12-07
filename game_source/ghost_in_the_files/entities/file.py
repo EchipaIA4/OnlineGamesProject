@@ -3,7 +3,7 @@ from pygame.time import wait
 from settings import text_color, scale_factor
 
 class FileIcon:
-    def __init__(self, block, font, name = "File", on_double_click = None, locked = False):
+    def __init__(self, block, font, name = "File", on_double_click = None, locked = False, system_file = False):
         self.block = block
         self.name = name
         self.font = font
@@ -15,11 +15,15 @@ class FileIcon:
         self.locked = locked
         self.text = ""
 
-        if self.locked:
-            path = "assets/sprites/file_locked.png"
+        if system_file:
+            path = "assets/sprites/system_file.png"
         else:
-            path = "assets/sprites/file.png"
+            if self.locked:
+                path = "assets/sprites/file_locked.png"
+            else:
+                path = "assets/sprites/file.png"
         self.sprite = pygame.image.load(path).convert_alpha()
+        self.sprite = pygame.transform.scale(self.sprite, (63, 63))
         self.rect = self.sprite.get_rect(center=self.block.center)
         
         self.dragging = False

@@ -13,5 +13,5 @@ file_width, file_height = 60, 50
 program_width, program_height, program_header_height = 600, 450, 30
 properties_menu_width, properties_menu_height = 40, 100
 
-slot_count = 8
+slot_count = 6
 slot_color, slot_hovered_color = (80, 80, 80), (120, 120, 120)
