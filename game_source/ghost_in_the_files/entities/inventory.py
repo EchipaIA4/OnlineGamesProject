@@ -17,6 +17,7 @@ class Inventory:
         
         self.slot_sprite = pygame.image.load("assets/sprites/inventory_slot.png")
         self.slot_sprite = pygame.transform.scale(self.slot_sprite, (self.slot_size, self.slot_size))
+        self.name_visible_until = 0
     
     def add_item(self, item):
         self.items.append(item)
@@ -32,6 +33,7 @@ class Inventory:
                     self.hovered_slot = None
                 else:
                     self.hovered_slot = event.key - pygame.K_1
+                    self.name_visible_until = pygame.time.get_ticks() + 2500
     
     def render(self, screen):
         for i in range(slot_count):
@@ -51,6 +53,6 @@ class Inventory:
                 item_sprite = pygame.transform.scale(item.sprite, (self.slot_size * 0.5, self.slot_size * 0.5))
                 screen.blit(item_sprite, (rect.centerx - item_sprite.get_width() / 2, rect.centery - item_sprite.get_height() / 2))
                 
-                if self.hovered_slot == i:
+                if self.hovered_slot == i and pygame.time.get_ticks() <= self.name_visible_until:
                     item_name = self.font.render(self.items[i].name, True, text_color)
-                    screen.blit(item_name, (rect.centerx - item_name.get_width() / 2, rect.y - item_name.get_height()))
+                    screen.blit(item_name, (rect.centerx - item_name.get_width() / 2, rect.y + item_name.get_height() * 0.5))

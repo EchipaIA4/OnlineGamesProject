@@ -9,6 +9,9 @@ from entities.pause_menu import PauseMenu
 from entities.desktop_grid import DesktopGrid
 from entities.inventory import Inventory
 from entities.key import Key
+from entities.null_pointer import NullPointer
+from entities.system_core import SystemCore
+from entities.entropy_flask import EntropyFlask
 from entities.text_viewer_program import TextViewerProgram
 from entities.convertor_program import ConvertorProgram
 from entities.log_viewer_program import LogViewerProgram
@@ -45,7 +48,13 @@ class Desktop:
                
         if os == "os1":
             master_key = Key(slot_size = self.inventory.slot_size)
+            null_pointer = NullPointer(slot_size = self.inventory.slot_size)
+            system_core = SystemCore(slot_size = self.inventory.slot_size)
+            entropy_flask = EntropyFlask(slot_size = self.inventory.slot_size)
             self.inventory.add_item(master_key)
+            self.inventory.add_item(null_pointer)
+            self.inventory.add_item(system_core)
+            self.inventory.add_item(entropy_flask)
            
             self.readme_content = "VG8gZmluZCB0aGUga2V5LCByZWFkIHRoZSBsb2dzLi4u"
             readme = FileIcon(
@@ -128,7 +137,7 @@ class Desktop:
         elif title == "kernel.mem":
             locked_file = next((file for file in self.files if file.name == "kernel.mem"), None)
             if locked_file:
-                program = LockedProgram(self.screen, locked_file)
+                program = LockedProgram(self.screen, locked_file, self.inventory)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)
