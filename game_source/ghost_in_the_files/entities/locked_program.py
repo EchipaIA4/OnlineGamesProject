@@ -23,6 +23,7 @@ class LockedProgram:
             process_event = self.handle_event,
             process_update = self.update
         )
+        self.window.program = self
         
         self.enter_button = Button(
             rect = (self.window.rect.centerx - 120 / 2, self.window.rect.y + self.window.rect.height / 2 + 80, 120, 40),
@@ -73,8 +74,13 @@ class LockedProgram:
             GameState.locked_program_state["input"] = self.input.copy()
     
     def render(self, rect):
-        label = self.font.render("".join(self.input), True, (255, 255, 255))
-        self.screen.blit(label, (rect.centerx - label.get_width() / 2, rect.y + program_header_height + rect.height / 3))
+        title_label = self.msg_font.render("Enter code:", True, (255, 255, 255))
+        self.screen.blit(title_label, (rect.centerx - title_label.get_width() / 2, rect.y + program_header_height + rect.height / 4))
+        
+        spacing = 30
+        for i, digit in enumerate(self.input):
+            label = self.font.render(digit, True, (255, 255, 255))
+            self.screen.blit(label, (rect.centerx - spacing * 3 / 2 + i * spacing - label.get_width() / 2, rect.y + program_header_height + rect.height / 3 + 20))
         
         if self.message:
             color = (0, 255, 0) if "Correct" in self.message else (255, 0, 0)
