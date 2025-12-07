@@ -168,11 +168,11 @@ class ConvertorProgram:
         
         if self.message:
             msg_label = self.font.render(self.message, True, (0, 255, 0))
-            self.screen.blit(msg_label, (rect.centerx - msg_label.get_width() / 2, rect.y + program_header_height + rect.height * 5 / 7))
+            self.screen.blit(msg_label, (rect.centerx - msg_label.get_width() / 2, rect.y + program_header_height + rect.height * 4.5 / 7))
         
         if self.error_message:
             msg_label = self.font.render(self.error_message, True, (255, 0, 0))
-            self.screen.blit(msg_label, (rect.centerx - msg_label.get_width() / 2, rect.y + program_header_height + rect.height * 5 / 7))
+            self.screen.blit(msg_label, (rect.centerx - msg_label.get_width() / 2, rect.y + program_header_height + rect.height * 4.5 / 7))
         
         if self.file_menu:
             self.file_menu.render()

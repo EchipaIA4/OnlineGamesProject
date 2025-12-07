@@ -38,12 +38,12 @@ class LockedProgram:
         )
     
     def handle_event(self, event):
+        self.enter_button.handle_event(event)
+        
         if GameState.locked_program_state["guessed"] == True:
             return
         
-        self.enter_button.handle_event(event)
         changed = False
-        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
                 for i in range(3, -1, -1):
@@ -73,6 +73,7 @@ class LockedProgram:
             self.guessed = True
             GameState.locked_program_state["guessed"] = True
             GameState.locked_program_state["input"] = self.input.copy()
+            self.enter_button.no_callback = True
             
             memory_chip = MemoryChip(slot_size = self.inventory.slot_size)
             self.inventory.add_item(memory_chip)

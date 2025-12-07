@@ -88,7 +88,7 @@ class FileIcon:
             self.sprite = pygame.image.load("assets/sprites/file.png").convert_alpha()
             self.sprite = pygame.transform.scale(self.sprite, (63, 63))
             self.rect = self.sprite.get_rect(center=self.block.center)
-       
+    
     def render(self, surface):
         surface.blit(self.sprite, self.rect.topleft)
         label = self.font.render(self.name, True, text_color)
