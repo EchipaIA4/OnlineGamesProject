@@ -11,15 +11,16 @@ class PauseMenu:
         self.x = x
         self.y = y
         
-        self.font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
+        self.font = pygame.font.SysFont(None, (int)(20 * screen_width / 1031))
         self.switch_scene = switch_scene
         self.active = False
         
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.box_sprite = pygame.image.load("assets/sprites/text_box.png")
+        self.box_sprite = pygame.transform.scale(self.box_sprite, (self.width, self.height))
         
         self.buttons = []
         log_out_button = Button(
-            rect = (self.x + 20 * screen_width / 1031, self.y + 20 * screen_height / 580, self.width - 40 * screen_width / 1031, self.height / 6),
+            rect = (self.x + 20 * screen_width / 1031, self.y + 25 * screen_height / 580, self.width - 40 * screen_width / 1031, 42),
             text = "Log Out",
             color = button_color,
             hover_color = button_hover_color,
@@ -28,7 +29,7 @@ class PauseMenu:
             callback = lambda: (self.switch_scene("boot_menu"), self.toggle())
         )
         shutdown_button = Button(
-            rect = (self.x + 20 * screen_width / 1031, self.y + 40 * screen_height / 580 + self.height / 6, self.width - 40 * screen_width / 1031, self.height / 6),
+            rect = (self.x + 20 * screen_width / 1031, self.y + 50 * screen_height / 580 + self.height / 6, self.width - 40 * screen_width / 1031, 42),
             text = "Shut down",
             color = button_color,
             hover_color = button_hover_color,
@@ -53,7 +54,9 @@ class PauseMenu:
                 button.update()
     
     def render(self):
-        if self.active:
-            pygame.draw.rect(self.screen, (25, 25, 25), self.rect, border_radius = (int)(5 * screen_width / 1031))
-            for button in self.buttons:
-                button.render(self.screen)
+        if not self.active:
+            return
+        
+        self.screen.blit(self.box_sprite, (self.x, self.y))
+        for button in self.buttons:
+            button.render(self.screen)

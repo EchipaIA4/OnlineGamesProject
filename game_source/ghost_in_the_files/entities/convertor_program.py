@@ -30,7 +30,7 @@ class ConvertorProgram:
             process_update = self.update
         )
         
-        gap = 100 * screen_width / 1031
+        gap = 150 * screen_width / 1031
         button_size = (160 * screen_width / 1031, 40 * screen_height / 580)
         
         self.mode_button = Button(
@@ -63,8 +63,12 @@ class ConvertorProgram:
             callback=self.decode_file
         )
         
-        self.mode_menu = FileMenu(self.screen, [FakeFile("Base64"), FakeFile("XOR7")], self.mode_button.rect.x, self.mode_button.rect.bottom)
+        self.mode_menu = FileMenu(self.screen, [FakeFile("Base64"), FakeFile("XOR7")], self.mode_button.rect.x, self.mode_button.rect.bottom, display_file_icon=False, width = 158)
         self.file_menu = FileMenu(self.screen, self.desktop_files, self.upload_button.rect.x, self.upload_button.rect.bottom)
+        self.mode_box_sprite = pygame.image.load("assets/sprites/text_box.png")
+        self.mode_box_sprite = pygame.transform.scale(self.mode_box_sprite, (130, 30))
+        self.file_box_sprite = pygame.image.load("assets/sprites/text_box.png")
+        self.file_box_sprite = pygame.transform.scale(self.file_box_sprite, (260, 60))
     
     def open_mode_menu(self):
         self.mode_menu.toggle()
@@ -146,15 +150,17 @@ class ConvertorProgram:
     
     def render(self, rect):
         rect_size = (260 * screen_width / 1031, 60 * screen_height / 580)
-        pygame.draw.rect(self.screen, (50, 50, 50), (rect.centerx - rect_size[0] / 2, rect.y + program_header_height + rect.height / 8, rect_size[0], rect_size[1]))
+        self.screen.blit(self.file_box_sprite, (rect.centerx - rect_size[0] / 2, rect.y + program_header_height + rect.height / 8))
+        
         file_title = self.selected_file.name if self.selected_file is not None else ""
         label = self.msg_font.render(file_title, True, (255, 255, 255))
         self.screen.blit(label, (rect.centerx - label.get_width() / 2, rect.y + program_header_height + rect.height / 8 + rect_size[1] / 2 - label.get_height() / 2))
         
-        mode_rect_size = (140 * screen_width / 1031, 35 * screen_height / 580)
-        pygame.draw.rect(self.screen, (50, 50, 50), (rect.centerx - mode_rect_size[0] / 2, rect.y + program_header_height + rect.height / 2.45, mode_rect_size[0], mode_rect_size[1]))
+        mode_rect_size = (130 * screen_width / 1031, 30 * screen_height / 580)
+        self.screen.blit(self.mode_box_sprite, (rect.centerx - mode_rect_size[0] / 2, rect.y + program_header_height + rect.height / 2.7))
+        
         mode_label = self.font.render(self.mode, True, (255, 255, 255))
-        self.screen.blit(mode_label, (rect.centerx - mode_label.get_width() / 2, rect.y + program_header_height + rect.height / 2.45 + mode_rect_size[1] / 2 - mode_label.get_height() / 2))
+        self.screen.blit(mode_label, (rect.centerx - mode_label.get_width() / 2, rect.y + program_header_height + rect.height / 2.7 + mode_rect_size[1] / 2 - mode_label.get_height() / 2))
         
         self.mode_button.render(self.screen)
         self.upload_button.render(self.screen)

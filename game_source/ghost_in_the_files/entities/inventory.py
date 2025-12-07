@@ -45,7 +45,7 @@ class Inventory:
                 border = 10
                 inner_rect = pygame.Rect(rect.x + border, rect.y + border, rect.width - 2 * border, rect.height - 2 * border)
                 overlay = pygame.Surface((inner_rect.width, inner_rect.height), pygame.SRCALPHA)
-                overlay.fill((128, 128, 128, 100))
+                overlay.fill((100, 100, 100, 100))
                 screen.blit(overlay, inner_rect.topleft)
             
             if i < len(self.items):
