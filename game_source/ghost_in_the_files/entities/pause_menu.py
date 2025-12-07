@@ -7,8 +7,10 @@ class PauseMenu:
         self.screen = screen
         self.width = width
         self.height = height
+        
         self.x = x
         self.y = y
+        
         self.font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
         self.switch_scene = switch_scene
         self.active = False
@@ -23,7 +25,7 @@ class PauseMenu:
             hover_color = button_hover_color,
             text_color = text_color,
             font = self.font,
-            callback = lambda: self.switch_scene("boot_menu")
+            callback = lambda: (self.switch_scene("boot_menu"), self.toggle())
         )
         shutdown_button = Button(
             rect = (self.x + 20 * screen_width / 1031, self.y + 40 * screen_height / 580 + self.height / 6, self.width - 40 * screen_width / 1031, self.height / 6),
@@ -32,7 +34,7 @@ class PauseMenu:
             hover_color = button_hover_color,
             text_color = text_color,
             font = self.font,
-            callback = lambda: self.switch_scene("main_menu")
+            callback = lambda: (self.switch_scene("main_menu"), self.toggle())
         )
         self.buttons.append(shutdown_button)
         self.buttons.append(log_out_button)
