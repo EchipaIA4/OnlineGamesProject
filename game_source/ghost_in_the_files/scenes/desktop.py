@@ -41,8 +41,8 @@ class Desktop:
         )
         
         self.background = pygame.image.load("assets/sprites/background.png").convert()
-        self.background = pygame.transform.scale(self.background, (self.grid.block_size[0] * desktop_grid_cols + (desktop_grid_cols + 1) * self.grid.margin, self.grid.block_size[1] * desktop_grid_rows + (desktop_grid_rows + 1) * self.grid.margin))
-        
+        self.background = pygame.transform.scale(self.background, (screen_width, self.grid.block_size[1] * desktop_grid_rows + (desktop_grid_rows + 1) * self.grid.margin))
+               
         if os == "os1":
             master_key = Key(slot_size = self.inventory.slot_size)
             self.inventory.add_item(master_key)
@@ -66,13 +66,15 @@ class Desktop:
                 self.grid.blocks[self.grid.cols],
                 self.file_font,
                 "Convertor.exe",
-                lambda: self.open_program("Convertor.exe")
+                lambda: self.open_program("Convertor.exe"),
+                system_file = True
             )
             log_file = FileIcon(
                 self.grid.blocks[2],
                 self.file_font,
                 "log.txt",
-                lambda: self.open_program("log.txt")
+                lambda: self.open_program("log.txt"),
+                system_file = True
             )
             self.encrypted_content = "U29iJ2RoY2InbnQ9Jz40MzIK"
             encrypted_file = FileIcon(
@@ -94,7 +96,8 @@ class Desktop:
                 self.grid.blocks[0],
                 self.file_font,
                 "kernel.mem",
-                lambda: self.open_program("kernel.mem")
+                lambda: self.open_program("kernel.mem"),
+                system_file = True
             )
             
             self.files.append(kernel_file)
