@@ -1,15 +1,15 @@
 import pygame
-from settings import screen_width, screen_height, scale_factor
+from settings import screen_width, screen_height
 from scenes.main_menu import MainMenu
 from scenes.boot_menu import BootMenu
+from scenes.final_menu import FinalMenu
 from scenes.desktop import Desktop
 from entities.cursor import Cursor
 from entities.inventory import Inventory
 
 pygame.init()
 surface = pygame.Surface((screen_width, screen_height))
-screen = pygame.display.set_mode((screen_width * scale_factor, screen_height * scale_factor))
-# screen = pygame.display.set_mode((screen_width, screen_height)) 
+screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 
 current_scene = None
@@ -26,12 +26,11 @@ def switch_scene(scene_name):
         exit()
     current_scene = scenes[scene_name]
 
-scenes = {
-    "main_menu": MainMenu(surface, switch_scene, cursor),
-    "boot_menu": BootMenu(surface, switch_scene, cursor),
-    "os1": Desktop(surface, inventory, switch_scene, cursor, "os1"),
-    "os2": Desktop(surface, inventory, switch_scene, cursor, "os2")
-}
+scenes["main_menu"] = MainMenu(surface, switch_scene, cursor)
+scenes["boot_menu"] = BootMenu(surface, switch_scene, cursor)
+scenes["os1"] = Desktop(surface, inventory, switch_scene, cursor, "os1")
+scenes["os2"] = Desktop(surface, inventory, switch_scene, cursor, "os2")
+scenes["final_menu"] = FinalMenu(surface, switch_scene, cursor, inventory, scenes)
 
 current_scene = scenes["main_menu"]
 

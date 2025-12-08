@@ -1,5 +1,4 @@
 import pygame
-from settings import scale_factor
 
 class Button:
     def __init__(self, rect, text, color, hover_color, text_color, font, callback, sprite_render = True, sprite_path = "assets/sprites/button.png", sprite_hover_path = "assets/sprites/button_hovered.png", sprite_pressed_path = "assets/sprites/button_clicked.png"):
@@ -23,7 +22,7 @@ class Button:
     def handle_event(self, event):
         if event.type == pygame.MOUSEMOTION:
             pos = event.pos
-            self.hovered = self.rect.collidepoint((pos[0] / scale_factor, pos[1] / scale_factor))
+            self.hovered = self.rect.collidepoint((pos[0], pos[1]))
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.hovered:
                 self.pressed = True

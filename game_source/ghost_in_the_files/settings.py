@@ -1,5 +1,4 @@
 screen_width, screen_height = 1031, 580
-scale_factor = 1
 desktop_bar_height = 30
 desktop_bar_color = (20, 20, 20)
 bar_height = 30
