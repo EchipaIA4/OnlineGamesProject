@@ -2,8 +2,8 @@ import pygame
 from settings import screen_width, screen_height, button_color, button_hover_color, text_color
 from entities.game_state import GameState
 from scenes.desktop import Desktop
-from entities.inventory import Inventory
-from entities.button import Button
+from entities.inventory.inventory import Inventory
+from entities.ui.button import Button
 
 class FinalMenu:
     def __init__(self, screen, switch_scene, cursor, inventory, scenes):
@@ -14,9 +14,9 @@ class FinalMenu:
         self.cursor = cursor
         self.scenes = scenes
         
-        self.background = pygame.image.load("assets/sprites/final_menu.png")
+        self.background = pygame.image.load("assets/sprites/backgrounds/final_menu.png")
         self.background = pygame.transform.scale(self.background, (screen_width, screen_height))
-        self.arrow = pygame.image.load("assets/sprites/arrow.png")
+        self.arrow = pygame.image.load("assets/sprites/ui/arrow.png")
         self.arrow = pygame.transform.scale(self.arrow, (32 * 1031 / 1536, 48 * 580 / 1024))
         
         # button rendering variables
@@ -32,9 +32,9 @@ class FinalMenu:
             text_color = text_color,
             font = self.font,
             callback = lambda: self.reset(),
-            sprite_path = "assets/sprites/restart_button.png",
-            sprite_hover_path = "assets/sprites/restart_button.png",
-            sprite_pressed_path = "assets/sprites/restart_button.png",
+            sprite_path = "assets/sprites/ui/restart_button.png",
+            sprite_hover_path = "assets/sprites/ui/restart_button.png",
+            sprite_pressed_path = "assets/sprites/ui/restart_button.png",
         )
 
         exit_button = Button(
@@ -45,9 +45,9 @@ class FinalMenu:
             text_color = text_color,
             font = self.font,
             callback = lambda: self.switch_scene("quit"),
-            sprite_path = "assets/sprites/quit2_button.png",
-            sprite_hover_path = "assets/sprites/quit2_button.png",
-            sprite_pressed_path = "assets/sprites/quit2_button.png"
+            sprite_path = "assets/sprites/ui/quit2_button.png",
+            sprite_hover_path = "assets/sprites/ui/quit2_button.png",
+            sprite_pressed_path = "assets/sprites/ui/quit2_button.png"
         )
         self.buttons.append(restart_button)
         self.buttons.append(exit_button)

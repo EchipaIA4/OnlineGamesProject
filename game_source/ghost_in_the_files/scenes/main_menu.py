@@ -1,6 +1,6 @@
 import pygame
 from settings import screen_width, screen_height, button_color, button_hover_color, text_color
-from entities.button import Button
+from entities.ui.button import Button
 
 class MainMenu:
     def __init__(self, screen, switch_scene, cursor):
@@ -9,9 +9,9 @@ class MainMenu:
         self.font = pygame.font.SysFont(None, (int)(44 * screen_width / 1031))
         self.cursor = cursor
         
-        self.background = pygame.image.load("assets/sprites/main_menu.png")
+        self.background = pygame.image.load("assets/sprites/backgrounds/main_menu.png")
         self.background = pygame.transform.scale(self.background, (screen_width, screen_height))
-        self.arrow = pygame.image.load("assets/sprites/arrow.png")
+        self.arrow = pygame.image.load("assets/sprites/ui/arrow.png")
         self.arrow = pygame.transform.scale(self.arrow, (32 * 1031 / 1536, 48 * 580 / 1024))
         
         # button rendering variables
@@ -27,9 +27,9 @@ class MainMenu:
             text_color = text_color,
             font = self.font,
             callback = lambda: self.switch_scene("boot_menu"),
-            sprite_path = "assets/sprites/start_button.png",
-            sprite_hover_path = "assets/sprites/start_button.png",
-            sprite_pressed_path = "assets/sprites/start_button.png",
+            sprite_path = "assets/sprites/ui/start_button.png",
+            sprite_hover_path = "assets/sprites/ui/start_button.png",
+            sprite_pressed_path = "assets/sprites/ui/start_button.png",
         )
 
         exit_button = Button(
@@ -40,9 +40,9 @@ class MainMenu:
             text_color = text_color,
             font = self.font,
             callback = lambda: self.switch_scene("quit"),
-            sprite_path = "assets/sprites/quit_button.png",
-            sprite_hover_path = "assets/sprites/quit_button.png",
-            sprite_pressed_path = "assets/sprites/quit_button.png"
+            sprite_path = "assets/sprites/ui/quit_button.png",
+            sprite_hover_path = "assets/sprites/ui/quit_button.png",
+            sprite_pressed_path = "assets/sprites/ui/quit_button.png"
         )
         self.buttons.append(start_button)
         self.buttons.append(exit_button)

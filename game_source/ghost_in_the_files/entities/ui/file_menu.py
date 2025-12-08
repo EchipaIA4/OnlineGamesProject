@@ -16,7 +16,7 @@ class FileMenu:
         self.font = pygame.font.SysFont(None, 24)
         self.active = False
         self.selected_file = None
-        self.box_sprite = pygame.image.load("assets/sprites/text_box.png")
+        self.box_sprite = pygame.image.load("assets/sprites/blocks/text_box.png")
         self.box_sprite = pygame.transform.scale(self.box_sprite, (self.width, self.height))
             
         for i, f in enumerate(files):

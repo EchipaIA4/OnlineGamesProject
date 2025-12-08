@@ -1,18 +1,18 @@
 import pygame
 from settings import bar_color, screen_width, screen_height, bar_height, text_color, button_hover_color, desktop_grid_rows, desktop_grid_cols
 from entities.game_state import GameState
-from entities.program_window import ProgramWindow
-from entities.button import Button
-from entities.file import FileIcon
-from entities.cursor import Cursor
-from entities.pause_menu import PauseMenu
-from entities.desktop_grid import DesktopGrid
-from entities.inventory import Inventory
-from entities.entropy_flask import EntropyFlask
-from entities.text_viewer_program import TextViewerProgram
-from entities.convertor_program import ConvertorProgram
-from entities.log_viewer_program import LogViewerProgram
-from entities.locked_program import LockedProgram
+from entities.programs.program_window import ProgramWindow
+from entities.ui.button import Button
+from entities.desktop.file import FileIcon
+from entities.desktop.cursor import Cursor
+from entities.ui.pause_menu import PauseMenu
+from entities.desktop.desktop_grid import DesktopGrid
+from entities.inventory.inventory import Inventory
+from entities.items.entropy_flask import EntropyFlask
+from entities.programs.text_viewer_program import TextViewerProgram
+from entities.programs.convertor_program import ConvertorProgram
+from entities.programs.log_viewer_program import LogViewerProgram
+from puzzles.disk_puzzle import DiskPuzzle
 from puzzles.ram_puzzle import RamPuzzle
 from puzzles.cpu_puzzle import CpuPuzzle
 from puzzles.network_puzzle import NetworkPuzzle
@@ -44,7 +44,7 @@ class Desktop:
             sprite_render = False
         )
         
-        self.background = pygame.image.load("assets/sprites/background.png").convert()
+        self.background = pygame.image.load("assets/sprites/backgrounds/background.png").convert()
         self.background = pygame.transform.scale(self.background, (screen_width, self.grid.block_size[1] * desktop_grid_rows + (desktop_grid_rows + 1) * self.grid.margin))
                
         if os == "os1":
@@ -155,7 +155,7 @@ class Desktop:
         elif title == "disk.mem":
             locked_file = next((file for file in self.files if file.name == "disk.mem"), None)
             if locked_file:
-                program = LockedProgram(self.screen, locked_file, self.inventory)
+                program = DiskPuzzle(self.screen, locked_file, self.inventory)
                 self.active_program = program.window
         elif title == "ram.mem":
             ram = next((file for file in self.files if file.name == "ram.mem"), None)
@@ -198,7 +198,7 @@ class Desktop:
         
         self.menu_button.handle_event(event)
         self.pause_menu.handle_event(event)
-        if not (hasattr(self.active_program, "program") and isinstance(self.active_program.program, LockedProgram) and self.active_program.active):
+        if not (hasattr(self.active_program, "program") and isinstance(self.active_program.program, DiskPuzzle) and self.active_program.active):
             self.inventory.handle_event(event)
         for file in self.files:
             file.handle_event(event, self.grid, self.inventory)

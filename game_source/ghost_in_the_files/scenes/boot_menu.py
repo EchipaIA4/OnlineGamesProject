@@ -1,7 +1,7 @@
 import pygame
 from settings import screen_width, screen_height, button_color, button_hover_color, text_color
 from entities.game_state import GameState
-from entities.button import Button
+from entities.ui.button import Button
 
 class BootMenu:
     def __init__(self, screen, switch_scene, cursor):
@@ -10,11 +10,11 @@ class BootMenu:
         self.cursor = cursor
         self.font = pygame.font.SysFont("Courier", 28)
         
-        self.background = pygame.image.load("assets/sprites/background.png")
+        self.background = pygame.image.load("assets/sprites/backgrounds/background.png")
         self.background = pygame.transform.scale(self.background, (screen_width, screen_height))
-        self.arrow = pygame.image.load("assets/sprites/arrow.png")
+        self.arrow = pygame.image.load("assets/sprites/ui/arrow.png")
         self.arrow = pygame.transform.scale(self.arrow, (32 * 1031 / 1536, 48 * 580 / 1024))
-        self.boot_text = pygame.image.load("assets/sprites/boot_text.png")
+        self.boot_text = pygame.image.load("assets/sprites/backgrounds/boot_text.png")
         self.boot_text = pygame.transform.scale(self.boot_text, (400, 90))
         
         self.button_size = [180, 45]
@@ -29,9 +29,9 @@ class BootMenu:
             text_color = text_color,
             font = self.font,
             callback = lambda: self.switch_scene("os1"),
-            sprite_path = "assets/sprites/ciphershell_button.png",
-            sprite_hover_path = "assets/sprites/ciphershell_button.png",
-            sprite_pressed_path = "assets/sprites/ciphershell_button.png",
+            sprite_path = "assets/sprites/ui/ciphershell_button.png",
+            sprite_hover_path = "assets/sprites/ui/ciphershell_button.png",
+            sprite_pressed_path = "assets/sprites/ui/ciphershell_button.png",
         )
         
         os2_button = Button(
@@ -42,9 +42,9 @@ class BootMenu:
             text_color = text_color,
             font = self.font,
             callback = lambda: self.switch_scene("os2"),
-            sprite_path = "assets/sprites/kernelgate_button.png",
-            sprite_hover_path = "assets/sprites/kernelgate_button.png",
-            sprite_pressed_path = "assets/sprites/kernelgate_button.png"
+            sprite_path = "assets/sprites/ui/kernelgate_button.png",
+            sprite_hover_path = "assets/sprites/ui/kernelgate_button.png",
+            sprite_pressed_path = "assets/sprites/ui/kernelgate_button.png"
         )
         
         exit_button = Button(
@@ -55,9 +55,9 @@ class BootMenu:
             text_color = text_color,
             font = self.font,
             callback = lambda: self.switch_scene("main_menu"),
-            sprite_path = "assets/sprites/exit_button.png",
-            sprite_hover_path = "assets/sprites/exit_button.png",
-            sprite_pressed_path = "assets/sprites/exit_button.png"
+            sprite_path = "assets/sprites/ui/exit_button.png",
+            sprite_hover_path = "assets/sprites/ui/exit_button.png",
+            sprite_pressed_path = "assets/sprites/ui/exit_button.png"
         )
         self.buttons.append(os1_button)
         self.buttons.append(os2_button)

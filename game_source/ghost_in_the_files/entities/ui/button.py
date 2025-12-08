@@ -1,7 +1,7 @@
 import pygame
 
 class Button:
-    def __init__(self, rect, text, color, hover_color, text_color, font, callback, sprite_render = True, sprite_path = "assets/sprites/button.png", sprite_hover_path = "assets/sprites/button_hovered.png", sprite_pressed_path = "assets/sprites/button_clicked.png"):
+    def __init__(self, rect, text, color, hover_color, text_color, font, callback, sprite_render = True, sprite_path = "assets/sprites/ui/button.png", sprite_hover_path = "assets/sprites/ui/button_hovered.png", sprite_pressed_path = "assets/sprites/ui/button_clicked.png"):
         self.rect = pygame.Rect(rect)
         self.text = text
         self.color = color
