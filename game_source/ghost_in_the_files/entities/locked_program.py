@@ -77,6 +77,7 @@ class LockedProgram:
             
             memory_chip = MemoryChip(slot_size = self.inventory.slot_size)
             self.inventory.add_item(memory_chip)
+            GameState.add_log("[SYSTEM] Disk sectors verified. Data integrity confirmed.")
         else:
             self.message = "Wrong code!"
             
