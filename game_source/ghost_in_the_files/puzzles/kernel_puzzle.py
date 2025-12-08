@@ -1,6 +1,9 @@
 import pygame
 from settings import program_width
+from entities.game_state import GameState
 from entities.programs.program_window import ProgramWindow
+from entities.submit_score import submit_score_native
+import asyncio
 
 class KernelPuzzle():
     def __init__(self, screen, switch_scene, inventory):
@@ -25,6 +28,11 @@ class KernelPuzzle():
         if item.name.lower() == "system core":
             self.inventory.remove_item(item)
             self.switch_scene("final_menu")
+            if GameState.score_submitted == False:
+                score = (GameState.game_time_minutes - 6 * 60) // 10
+                asyncio.create_task(submit_score_native(max(100 - score, 0)))
+                GameState.score_submitted = True
+
     
     def handle_event(self, event):
         if not self.window.active:
