@@ -1,6 +1,6 @@
 import pygame
 from settings import program_width
-from entities.programs.program_window import ProgramWindow
+from entities.program_window import ProgramWindow
 
 class KernelPuzzle():
     def __init__(self, screen, switch_scene, inventory):
@@ -17,7 +17,7 @@ class KernelPuzzle():
         
         self.x = self.window.x + program_width / 2
         self.y = self.window.y + 160
-        self.empty_slot_sprite = pygame.image.load("assets/sprites/nodes/null_empty_node.png")
+        self.empty_slot_sprite = pygame.image.load("assets/sprites/null_empty_node.png")
         self.empty_slot_sprite = pygame.transform.scale(self.empty_slot_sprite, (210, 210))
         self.empty_rect = self.empty_slot_sprite.get_rect(topleft=(self.x - self.empty_slot_sprite.get_width() / 2, self.y))
     

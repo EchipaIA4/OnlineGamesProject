@@ -1,11 +1,11 @@
 import pygame
 from settings import screen_width, program_header_height
 from entities.game_state import GameState
-from entities.programs.program_window import ProgramWindow
-from entities.ui.button import Button
-from entities.items.memory_chip import MemoryChip
+from .program_window import ProgramWindow
+from .button import Button
+from .memory_chip import MemoryChip
 
-class DiskPuzzle:
+class LockedProgram:
     def __init__(self, screen, file_icon, inventory, code = "9345"):
         self.screen = screen
         self.file_icon = file_icon

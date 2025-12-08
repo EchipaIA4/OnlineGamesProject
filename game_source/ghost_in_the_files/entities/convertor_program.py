@@ -1,10 +1,10 @@
 import pygame, base64, binascii
 from settings import screen_width, screen_height, program_header_height
 from entities.game_state import GameState
-from entities.programs.program_window import ProgramWindow
-from entities.ui.button import Button
-from entities.ui.file_menu import FileMenu
-from entities.desktop.fake_file import FakeFile
+from entities.program_window import ProgramWindow
+from entities.button import Button
+from entities.file_menu import FileMenu
+from entities.fake_file import FakeFile
 
 class ConvertorProgram:
     def __init__(self, screen, desktop_files):
@@ -65,9 +65,9 @@ class ConvertorProgram:
         
         self.mode_menu = FileMenu(self.screen, [FakeFile("Base64"), FakeFile("XOR7")], self.mode_button.rect.x, self.mode_button.rect.bottom, display_file_icon=False, width = 158)
         self.file_menu = FileMenu(self.screen, self.desktop_files, self.upload_button.rect.x, self.upload_button.rect.bottom)
-        self.mode_box_sprite = pygame.image.load("assets/sprites/blocks/text_box.png")
+        self.mode_box_sprite = pygame.image.load("assets/sprites/text_box.png")
         self.mode_box_sprite = pygame.transform.scale(self.mode_box_sprite, (130, 30))
-        self.file_box_sprite = pygame.image.load("assets/sprites/blocks/text_box.png")
+        self.file_box_sprite = pygame.image.load("assets/sprites/text_box.png")
         self.file_box_sprite = pygame.transform.scale(self.file_box_sprite, (260, 60))
     
     def open_mode_menu(self):

@@ -2,8 +2,8 @@ import pygame
 import math
 from settings import program_width, program_height, program_header_height
 from entities.game_state import GameState
-from entities.programs.program_window import ProgramWindow
-from entities.items.key import Key
+from entities.program_window import ProgramWindow
+from entities.key import Key
 
 class Node():
     def __init__(self, name, pos, empty_node_sprite, active_node_sprite, null_node_sprite, null_empty_node_sprite):
@@ -100,25 +100,25 @@ class NetworkPuzzle():
             process_update = self.update
         ) 
         
-        self.empty_node_sprite = pygame.image.load("assets/sprites/nodes/empty_node.png")
+        self.empty_node_sprite = pygame.image.load("assets/sprites/empty_node.png")
         self.empty_node_sprite = pygame.transform.scale(self.empty_node_sprite, (60, 60))
         
-        self.active_node_sprite = pygame.image.load("assets/sprites/nodes/active_node.png")
+        self.active_node_sprite = pygame.image.load("assets/sprites/active_node.png")
         self.active_node_sprite = pygame.transform.scale(self.active_node_sprite, (60, 60))
         
-        self.null_node_sprite = pygame.image.load("assets/sprites/nodes/null_node.png")
+        self.null_node_sprite = pygame.image.load("assets/sprites/null_node.png")
         self.null_node_sprite = pygame.transform.scale(self.null_node_sprite, (50, 50))
         
-        self.null_empty_node_sprite = pygame.image.load("assets/sprites/nodes/null_empty_node.png")
+        self.null_empty_node_sprite = pygame.image.load("assets/sprites/null_empty_node.png")
         self.null_empty_node_sprite = pygame.transform.scale(self.null_empty_node_sprite, (60, 60))
         
-        self.empty_edge_sprite = pygame.image.load("assets/sprites/edges/empty_edge.png")
-        self.active_edge_sprite = pygame.image.load("assets/sprites/edges/active_edge.png")
+        self.empty_edge_sprite = pygame.image.load("assets/sprites/empty_edge.png")
+        self.active_edge_sprite = pygame.image.load("assets/sprites/active_edge.png")
         
         self.x = self.window.x + program_width / 2
         self.y = self.window.y + program_height / 2 + program_header_height - 5
         
-        self.key_sprite = pygame.image.load("assets/sprites/items/key.png")
+        self.key_sprite = pygame.image.load("assets/sprites/key.png")
         self.key_sprite = pygame.transform.scale(self.key_sprite, (40, 40))
         self.key_rect = self.key_sprite.get_rect(topleft=(self.x - 20, self.y - 20))
         

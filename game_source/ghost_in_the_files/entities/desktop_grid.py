@@ -1,6 +1,6 @@
 import pygame
 from settings import screen_width, screen_height, bar_height, desktop_grid_rows, desktop_grid_cols
-from entities.inventory.inventory import Inventory
+from entities.inventory import Inventory
 
 class DesktopGrid:
     def __init__(self, screen, inventory, rows = desktop_grid_rows, cols = desktop_grid_cols, margin = 5):
