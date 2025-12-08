@@ -34,6 +34,14 @@ class Inventory:
                 else:
                     self.hovered_slot = event.key - pygame.K_1
                     self.name_visible_until = pygame.time.get_ticks() + 2500
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = event.pos
+            for i in range(slot_count):
+                rect = pygame.Rect(self.x, self.y + i * (self.slot_size) + (i - 1) * self.gap + self.margin, self.slot_size, self.slot_size)
+                if rect.collidepoint(mouse_pos):
+                    self.hovered_slot = i
+                    if i < len(self.items):
+                        self.name_visible_until = pygame.time.get_ticks() + 2500
     
     def render(self, screen):
         for i in range(slot_count):
