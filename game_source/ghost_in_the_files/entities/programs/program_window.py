@@ -1,6 +1,6 @@
 import pygame
 from settings import screen_width, screen_height, program_width, program_height, program_header_height, button_color, button_hover_color, text_color
-from entities.button import Button
+from entities.ui.button import Button
 
 class ProgramWindow:
     def __init__(self, title, content_callback = None, process_event = None, process_update = None):

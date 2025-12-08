@@ -1,7 +1,7 @@
 import pygame
 from entities.game_state import GameState
-from entities.system_core import SystemCore
-from entities.program_window import ProgramWindow
+from entities.items.system_core import SystemCore
+from entities.programs.program_window import ProgramWindow
 
 class CpuPuzzle():
     def __init__(self, screen, inventory):
@@ -23,22 +23,22 @@ class CpuPuzzle():
         self.y = self.window.rect.y + 175
         self.gap = 40
         
-        self.core1_sprite = pygame.image.load("assets/sprites/core1.png")
+        self.core1_sprite = pygame.image.load("assets/sprites/cores/core1.png")
         self.core1_sprite = pygame.transform.scale(self.core1_sprite, (110, 110))
         
-        self.core2_sprite = pygame.image.load("assets/sprites/core2.png")
+        self.core2_sprite = pygame.image.load("assets/sprites/cores/core2.png")
         self.core2_sprite = pygame.transform.scale(self.core2_sprite, (110, 110))
         
-        self.core3_sprite = pygame.image.load("assets/sprites/core3.png")
+        self.core3_sprite = pygame.image.load("assets/sprites/cores/core3.png")
         self.core3_sprite = pygame.transform.scale(self.core3_sprite, (110, 110))
         
-        self.core4_sprite = pygame.image.load("assets/sprites/core4.png")
+        self.core4_sprite = pygame.image.load("assets/sprites/cores/core4.png")
         self.core4_sprite = pygame.transform.scale(self.core4_sprite, (110, 110))
         
-        self.core4_broken_sprite = pygame.image.load("assets/sprites/core4_broken.png")
+        self.core4_broken_sprite = pygame.image.load("assets/sprites/cores/core4_broken.png")
         self.core4_broken_sprite = pygame.transform.scale(self.core4_broken_sprite, (110, 110))
         
-        self.heart_sprite = pygame.image.load("assets/sprites/system_core.png")
+        self.heart_sprite = pygame.image.load("assets/sprites/items/system_core.png")
         self.heart_sprite = pygame.transform.scale(self.heart_sprite, (60, 60))
         
         self.core1_rect = self.core1_sprite.get_rect(topleft=(self.x, self.y))

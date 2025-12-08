@@ -1,9 +1,9 @@
 import pygame
 from settings import screen_width, screen_height, program_width, program_height, program_header_height, button_color, button_hover_color, text_color
 from entities.game_state import GameState
-from entities.null_pointer import NullPointer
-from entities.program_window import ProgramWindow
-from entities.button import Button
+from entities.items.null_pointer import NullPointer
+from entities.programs.program_window import ProgramWindow
+from entities.ui.button import Button
 
 class RamPuzzle():
     def __init__(self, screen, inventory):
@@ -23,12 +23,12 @@ class RamPuzzle():
         self.grid_y = self.window.rect.y + 125
         self.gap = 3
         
-        self.empty_block_sprite = pygame.image.load("assets/sprites/empty_block.png")
+        self.empty_block_sprite = pygame.image.load("assets/sprites/blocks/empty_block.png")
         self.empty_block_sprite = pygame.transform.scale(self.empty_block_sprite, (self.cell_size, self.cell_size))
-        self.full_block_sprite = pygame.image.load("assets/sprites/full_block.png")
+        self.full_block_sprite = pygame.image.load("assets/sprites/blocks/full_block.png")
         self.full_block_sprite = pygame.transform.scale(self.full_block_sprite, (self.cell_size, self.cell_size))
         
-        self.big_block_sprite = pygame.image.load("assets/sprites/big_block.png")
+        self.big_block_sprite = pygame.image.load("assets/sprites/blocks/big_block.png")
         self.big_block_sprite = pygame.transform.scale(self.big_block_sprite, (self.cols * self.cell_size + (self.cols - 1) * self.gap, self.rows * self.cell_size + (self.rows - 1) * self.gap))
         self.big_block_rect = pygame.Rect(self.grid_x, self.grid_y, self.big_block_sprite.get_width(), self.big_block_sprite.get_height())
         

@@ -1,5 +1,5 @@
 import pygame
-from entities.button import Button
+from entities.ui.button import Button
 from settings import screen_width, screen_height, bar_height, button_color, button_hover_color, text_color
 
 class PauseMenu:
@@ -15,7 +15,7 @@ class PauseMenu:
         self.switch_scene = switch_scene
         self.active = False
         
-        self.box_sprite = pygame.image.load("assets/sprites/text_box.png")
+        self.box_sprite = pygame.image.load("assets/sprites/blocks/text_box.png")
         self.box_sprite = pygame.transform.scale(self.box_sprite, (self.width, self.height))
         
         self.buttons = []
