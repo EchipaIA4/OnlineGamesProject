@@ -58,3 +58,45 @@ class GameState:
     
     def get_logs():
         return GameState.logs.copy()
+    
+    def reset():
+        GameState.flags = {}
+        GameState.logs = []
+        GameState.convertor_state = {
+            "selected_file": None,
+            "mode": "Base64"
+        }
+        GameState.locked_program_state = {
+            "input": ["-", "-", "-", "-"],
+            "guessed": False
+        }
+        GameState.ram_puzzle_state = {
+            "grid": [
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0]
+            ],
+            "game_started": False,
+            "memory_chip_inserted": False,
+            "win": False,
+            "big_block_appeared": False,
+            "reward_given": False
+        }
+        GameState.cpu_puzzle_state = {
+            "cpu_cores": [0, 0, 0, 0],
+            "item_used": False,
+            "win": False,
+            "reward_given": False
+        }
+        GameState.network_puzzle_state = {
+            "nodes": {},
+            "edges": {},
+            "item_used": False,
+            "win": False,
+            "reward_given": False
+        }
+        GameState.game_time_minutes = 6 * 60
+        GameState.time_update = pygame.time.get_ticks()
