@@ -8,7 +8,6 @@ from entities.cursor import Cursor
 from entities.pause_menu import PauseMenu
 from entities.desktop_grid import DesktopGrid
 from entities.inventory import Inventory
-from entities.system_core import SystemCore
 from entities.entropy_flask import EntropyFlask
 from entities.text_viewer_program import TextViewerProgram
 from entities.convertor_program import ConvertorProgram
@@ -17,6 +16,7 @@ from entities.locked_program import LockedProgram
 from puzzles.ram_puzzle import RamPuzzle
 from puzzles.cpu_puzzle import CpuPuzzle
 from puzzles.network_puzzle import NetworkPuzzle
+from puzzles.kernel_puzzle import KernelPuzzle
 
 class Desktop:
     def __init__(self, screen, inventory, switch_scene, cursor, os = "os1"):
@@ -59,12 +59,12 @@ class Desktop:
                 lambda: self.open_program("README.md")
             )
             readme.text = self.readme_content
-            secret_file = FileIcon(
+            kernel_file = FileIcon(
                 self.grid.blocks[1],
                 self.file_font,
-                "Secret.exe",
-                lambda: self.open_program("Secret.exe"),
-                True
+                "kernel.mem",
+                lambda: self.open_program("kernel.mem"),
+                locked = True,
             )
             convertor_file = FileIcon(
                 self.grid.blocks[self.grid.cols],
@@ -89,18 +89,18 @@ class Desktop:
             )
             encrypted_file.text = self.encrypted_content
             
-            self.files.append(secret_file)
+            self.files.append(kernel_file)
             self.files.append(readme)
             self.files.append(convertor_file)
             self.files.append(log_file)
             self.files.append(encrypted_file)
             self.grid.files = self.files
         else:
-            kernel_file = FileIcon(
+            disk_file= FileIcon(
                 self.grid.blocks[0],
                 self.file_font,
-                "kernel.mem",
-                lambda: self.open_program("kernel.mem"),
+                "disk.mem",
+                lambda: self.open_program("disk.mem"),
                 system_file = True
             )
             
@@ -127,7 +127,7 @@ class Desktop:
                 lambda: self.open_program("network.exe")
             )
             
-            self.files.append(kernel_file)
+            self.files.append(disk_file)
             self.files.append(ram_file)
             self.files.append(cpu_file)
             self.files.append(network_file)
@@ -152,8 +152,8 @@ class Desktop:
             if note:
                 viewer = TextViewerProgram(self.screen, note.text)
                 self.active_program = ProgramWindow(title, lambda: viewer.render(self.active_program.rect))
-        elif title == "kernel.mem":
-            locked_file = next((file for file in self.files if file.name == "kernel.mem"), None)
+        elif title == "disk.mem":
+            locked_file = next((file for file in self.files if file.name == "disk.mem"), None)
             if locked_file:
                 program = LockedProgram(self.screen, locked_file, self.inventory)
                 self.active_program = program.window
@@ -171,6 +171,11 @@ class Desktop:
             network = next((file for file in self.files if file.name == "network.exe"), None)
             if network:
                 program = NetworkPuzzle(self.screen, self.inventory)
+                self.active_program = program.window
+        elif title == "kernel.mem":
+            kernel = next((file for file in self.files if file.name == "kernel.mem"), None)
+            if kernel:
+                program = KernelPuzzle(self.screen, self.switch_scene, self.inventory)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)
