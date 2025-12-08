@@ -8,7 +8,6 @@ from entities.cursor import Cursor
 from entities.pause_menu import PauseMenu
 from entities.desktop_grid import DesktopGrid
 from entities.inventory import Inventory
-from entities.key import Key
 from entities.system_core import SystemCore
 from entities.entropy_flask import EntropyFlask
 from entities.text_viewer_program import TextViewerProgram
@@ -17,6 +16,7 @@ from entities.log_viewer_program import LogViewerProgram
 from entities.locked_program import LockedProgram
 from puzzles.ram_puzzle import RamPuzzle
 from puzzles.cpu_puzzle import CpuPuzzle
+from puzzles.network_puzzle import NetworkPuzzle
 
 class Desktop:
     def __init__(self, screen, inventory, switch_scene, cursor, os = "os1"):
@@ -48,9 +48,7 @@ class Desktop:
         self.background = pygame.transform.scale(self.background, (screen_width, self.grid.block_size[1] * desktop_grid_rows + (desktop_grid_rows + 1) * self.grid.margin))
                
         if os == "os1":
-            master_key = Key(slot_size = self.inventory.slot_size)
             entropy_flask = EntropyFlask(slot_size = self.inventory.slot_size)
-            self.inventory.add_item(master_key)
             self.inventory.add_item(entropy_flask)
            
             self.readme_content = "TGV0IGFsbCBiZSBlbXB0eSEK"
@@ -122,12 +120,17 @@ class Desktop:
                 system_file = True
             )
             
+            network_file = FileIcon(
+                self.grid.blocks[self.grid.cols],
+                self.file_font,
+                "network.exe",
+                lambda: self.open_program("network.exe")
+            )
+            
             self.files.append(kernel_file)
             self.files.append(ram_file)
             self.files.append(cpu_file)
-        
-        
-        GameState.set_flag("found_key")
+            self.files.append(network_file)
     
     def open_program(self, title, content_callback = None):
         if self.active_program is not None:
@@ -163,6 +166,11 @@ class Desktop:
             cpu = next((file for file in self.files if file.name == "cpu.mem"), None)
             if cpu:
                 program = CpuPuzzle(self.screen, self.inventory)
+                self.active_program = program.window
+        elif title == "network.exe":
+            network = next((file for file in self.files if file.name == "network.exe"), None)
+            if network:
+                program = NetworkPuzzle(self.screen, self.inventory)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)

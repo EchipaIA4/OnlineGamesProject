@@ -36,6 +36,14 @@ class GameState:
         "reward_given": False
     }
     
+    network_puzzle_state = {
+        "nodes": {},
+        "edges": {},
+        "item_used": False,
+        "win": False,
+        "reward_given": False
+    }
+    
     game_time_minutes = 6 * 60
     time_update = pygame.time.get_ticks()
 

@@ -80,6 +80,7 @@ class RamPuzzle():
         if self.check_win():
             GameState.ram_puzzle_state["win"] = True
             self.start_button.no_callback = True
+            GameState.add_log("[SYSTEM] RAM successfully restored. All volatile memory cleared.")
     
     def on_item_use(self, item):
         if item.name.lower() == "memory chip":
