@@ -154,6 +154,6 @@ Scores are automatically submitted to the server and displayed on the leaderboar
 
 ## Screenshot
 
-![Screenshot](/github.jpeg)
+![Screenshot](/github.jpg)
 
 ---
