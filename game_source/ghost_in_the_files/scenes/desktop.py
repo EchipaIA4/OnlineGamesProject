@@ -51,7 +51,7 @@ class Desktop:
             entropy_flask = EntropyFlask(slot_size = self.inventory.slot_size)
             self.inventory.add_item(entropy_flask)
            
-            self.readme_content = "TGV0IGFsbCBiZSBlbXB0eSEK"
+            self.readme_content = "TGV0IGFsbCBiZSBlbXB0eSEgQTB8QUJ8QUR8QkR8Q0R8QzAK"
             readme = FileIcon(
                 self.grid.blocks[0],
                 self.file_font,
@@ -80,7 +80,7 @@ class Desktop:
                 lambda: self.open_program("log.txt"),
                 system_file = True
             )
-            self.encrypted_content = "U29iJ2RoY2InbnQ9Jz40MzIK"
+            self.encrypted_content = "U29iJ2RoY2InbnQnPjQzMiYK"
             encrypted_file = FileIcon(
                 self.grid.blocks[self.grid.cols - 1],
                 self.file_font,
