@@ -15,7 +15,7 @@ class Inventory:
         self.font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
         self.hovered_slot = None
         
-        self.slot_sprite = pygame.image.load("assets/sprites/inventory_slot.png")
+        self.slot_sprite = pygame.image.load("assets/sprites/ui/inventory_slot.png")
         self.slot_sprite = pygame.transform.scale(self.slot_sprite, (self.slot_size, self.slot_size))
         self.name_visible_until = 0
     

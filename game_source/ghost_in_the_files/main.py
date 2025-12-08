@@ -4,8 +4,8 @@ from scenes.main_menu import MainMenu
 from scenes.boot_menu import BootMenu
 from scenes.final_menu import FinalMenu
 from scenes.desktop import Desktop
-from entities.cursor import Cursor
-from entities.inventory import Inventory
+from entities.desktop.cursor import Cursor
+from entities.inventory.inventory import Inventory
 
 pygame.init()
 surface = pygame.Surface((screen_width, screen_height))
