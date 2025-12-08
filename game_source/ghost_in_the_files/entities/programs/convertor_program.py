@@ -110,13 +110,9 @@ class ConvertorProgram:
                 self.error_message = f"Unexpected error!"
         elif self.mode == "XOR7":
             try:
-                text = "".join(chr(ord(c) ^ 7) for c in self.selected_file.text)
-                #if (any(ord(c) < 32 for c in text)):
-                #    self.error_message = "Data unreadable. Maybe decode Base64 first?"
-                #    self.message = ""
-                #    return
-                
-                self.selected_file.text = text
+                text_bytes = self.selected_file.text.encode("utf-8")
+                decoded_bytes = bytes([b ^ 7 for b in text_bytes])
+                self.selected_file.text = decoded_bytes.decode("utf-8")
                 self.message = "XOR7 decoded!"
                 self.error_message = ""
             except Exception as e:
