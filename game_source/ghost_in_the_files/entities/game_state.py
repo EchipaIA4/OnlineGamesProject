@@ -7,10 +7,12 @@ class GameState:
         "selected_file": None,
         "mode": "Base64"
     }
+    
     locked_program_state = {
         "input": ["-", "-", "-", "-"],
         "guessed": False
     }
+    
     ram_puzzle_state = {
         "grid": [
             [0, 0, 0, 0, 0, 0],
@@ -26,6 +28,14 @@ class GameState:
         "big_block_appeared": False,
         "reward_given": False
     }
+    
+    cpu_puzzle_state = {
+        "cpu_cores": [0, 0, 0, 0],
+        "item_used": False,
+        "win": False,
+        "reward_given": False
+    }
+    
     game_time_minutes = 6 * 60
     time_update = pygame.time.get_ticks()
 
