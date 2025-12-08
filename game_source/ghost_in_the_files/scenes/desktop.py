@@ -1,4 +1,3 @@
-from os import sysconf
 import pygame
 from settings import bar_color, screen_width, screen_height, bar_height, text_color, button_hover_color, desktop_grid_rows, desktop_grid_cols
 from entities.game_state import GameState
@@ -17,6 +16,7 @@ from entities.convertor_program import ConvertorProgram
 from entities.log_viewer_program import LogViewerProgram
 from entities.locked_program import LockedProgram
 from puzzles.ram_puzzle import RamPuzzle
+from puzzles.cpu_puzzle import CpuPuzzle
 
 class Desktop:
     def __init__(self, screen, inventory, switch_scene, cursor, os = "os1"):
@@ -49,10 +49,8 @@ class Desktop:
                
         if os == "os1":
             master_key = Key(slot_size = self.inventory.slot_size)
-            system_core = SystemCore(slot_size = self.inventory.slot_size)
             entropy_flask = EntropyFlask(slot_size = self.inventory.slot_size)
             self.inventory.add_item(master_key)
-            self.inventory.add_item(system_core)
             self.inventory.add_item(entropy_flask)
            
             self.readme_content = "TGV0IGFsbCBiZSBlbXB0eSEK"
@@ -116,8 +114,17 @@ class Desktop:
                 system_file = True
             )
             
+            cpu_file = FileIcon(
+                self.grid.blocks[2],
+                self.file_font,
+                "cpu.mem",
+                lambda: self.open_program("cpu.mem"),
+                system_file = True
+            )
+            
             self.files.append(kernel_file)
             self.files.append(ram_file)
+            self.files.append(cpu_file)
         
         
         GameState.set_flag("found_key")
@@ -151,6 +158,11 @@ class Desktop:
             ram = next((file for file in self.files if file.name == "ram.mem"), None)
             if ram:
                 program = RamPuzzle(self.screen, self.inventory)
+                self.active_program = program.window
+        elif title == "cpu.mem":
+            cpu = next((file for file in self.files if file.name == "cpu.mem"), None)
+            if cpu:
+                program = CpuPuzzle(self.screen, self.inventory)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)

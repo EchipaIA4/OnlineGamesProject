@@ -66,6 +66,8 @@ class BootMenu:
         
         GameState.add_log("Boot sequence initialized.")
         GameState.add_log("Desktop environment loaded successfully!")
+        GameState.add_log("[WARNING] Core 1 load exceeds safe threshold.")
+        GameState.add_log("[ERROR] Core 4 has gone completely inert. No thermal activity detected.")
     
     def handle_event(self, event):
         self.cursor.handle_event(event)
