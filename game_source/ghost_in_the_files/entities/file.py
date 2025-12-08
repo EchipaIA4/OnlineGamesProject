@@ -1,6 +1,6 @@
 import pygame
 from pygame.time import wait
-from settings import text_color, scale_factor
+from settings import text_color
 
 class FileIcon:
     def __init__(self, block, font, name = "File", on_double_click = None, locked = False, system_file = False):
@@ -34,18 +34,18 @@ class FileIcon:
     def handle_event(self, event, desktop_grid = None, inventory = None):
         if desktop_grid:
             pos = pygame.mouse.get_pos()
-            hovered_block = desktop_grid.get_hovered_block((pos[0] / scale_factor, pos[1] / scale_factor))
+            hovered_block = desktop_grid.get_hovered_block((pos[0], pos[1]))
             self.hovered = hovered_block == self.block
         
         if event.type == pygame.MOUSEMOTION:
             pos = event.pos
-            self.hovered = self.rect.collidepoint((pos[0] / scale_factor, pos[1] / scale_factor))
+            self.hovered = self.rect.collidepoint((pos[0], pos[1]))
             if self.dragging:
                 self.rect.center = (event.pos[0] - self.off_x, event.pos[1] - self.off_y)
                 
                 if desktop_grid:
                     pos = event.pos
-                    hovered_block = desktop_grid.get_hovered_block((pos[0] / scale_factor, pos[1] / scale_factor))
+                    hovered_block = desktop_grid.get_hovered_block((pos[0], pos[1]))
                     if hovered_block:
                         self.block_snap = hovered_block
         
@@ -81,7 +81,7 @@ class FileIcon:
                 self.dragging = False
     
     def on_item_use(self, item, inventory = None):
-        if self.locked and item.name.lower() == "key" and "secret" in self.name.lower():
+        if self.locked and item.name.lower() == "key":
             self.locked = False
             if inventory:
                 inventory.remove_item(item)

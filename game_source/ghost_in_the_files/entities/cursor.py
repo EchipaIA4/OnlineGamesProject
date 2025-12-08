@@ -1,5 +1,4 @@
 import pygame
-from settings import scale_factor
 
 class Cursor:
     def __init__(self, path = "assets/sprites/cursor.png"):
@@ -23,7 +22,7 @@ class Cursor:
     
     def update(self):
         pos = pygame.mouse.get_pos()
-        self.pos = (pos[0] / scale_factor, pos[1] / scale_factor)
+        self.pos = (pos[0], pos[1])
     
     def render(self, surface):
         surface.blit(self.sprite, self.pos)

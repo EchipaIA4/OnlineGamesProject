@@ -1,5 +1,5 @@
 import pygame
-from settings import file_width, file_height, text_color, slot_color, screen_width, scale_factor
+from settings import file_width, file_height, text_color, slot_color, screen_width
 
 class FileMenu:
     def __init__(self, screen, files, x, y, width=260, display_file_icon = True):
@@ -34,13 +34,13 @@ class FileMenu:
             self.hovered_index = None
             for i, rect in enumerate(self.rects):
                 pos = event.pos
-                if rect.collidepoint((pos[0] / scale_factor, pos[1] / scale_factor)):
+                if rect.collidepoint((pos[0], pos[1])):
                     self.hovered_index = i
                     break
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             for i, rect in enumerate(self.rects):
                 pos = event.pos
-                if rect.collidepoint((pos[0] / scale_factor, pos[1] / scale_factor)):
+                if rect.collidepoint((pos[0], pos[1])):
                     self.selected_file = self.files[i]
                     self.active = False
     
