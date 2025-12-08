@@ -46,6 +46,7 @@ class GameState:
     
     game_time_minutes = 6 * 60
     time_update = pygame.time.get_ticks()
+    score_submitted = False
 
     def set_flag(name, value = True):
         GameState.flags[name] = value
