@@ -3,11 +3,12 @@ from settings import screen_width, screen_height, button_color, button_hover_col
 from entities.ui.button import Button
 
 class MainMenu:
-    def __init__(self, screen, switch_scene, cursor):
+    def __init__(self, screen, switch_scene, cursor, music):
         self.screen = screen
         self.switch_scene = switch_scene
         self.font = pygame.font.SysFont(None, (int)(44 * screen_width / 1031))
         self.cursor = cursor
+        self.music = music
         
         self.background = pygame.image.load("assets/sprites/backgrounds/main_menu.png")
         self.background = pygame.transform.scale(self.background, (screen_width, screen_height))
@@ -26,7 +27,7 @@ class MainMenu:
             hover_color = button_hover_color,
             text_color = text_color,
             font = self.font,
-            callback = lambda: self.switch_scene("boot_menu"),
+            callback = lambda: self.start_game(),
             sprite_path = "assets/sprites/ui/start_button.png",
             sprite_hover_path = "assets/sprites/ui/start_button.png",
             sprite_pressed_path = "assets/sprites/ui/start_button.png",
@@ -47,6 +48,10 @@ class MainMenu:
         self.buttons.append(start_button)
         self.buttons.append(exit_button)
         self.selected_index = 0
+    
+    def start_game(self):
+        self.switch_scene("boot_menu")
+        self.music.play("assets/sounds/gameplay.ogg")
     
     def handle_event(self, event):
         self.cursor.handle_event(event)

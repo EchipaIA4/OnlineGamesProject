@@ -19,11 +19,12 @@ from puzzles.network_puzzle import NetworkPuzzle
 from puzzles.kernel_puzzle import KernelPuzzle
 
 class Desktop:
-    def __init__(self, screen, inventory, switch_scene, cursor, os, dialogue):
+    def __init__(self, screen, inventory, switch_scene, cursor, os, dialogue, music):
         self.screen = screen
         self.switch_scene = switch_scene
         self.cursor = cursor
         self.dialogue = dialogue
+        self.music = music
         self.font = pygame.font.SysFont(None, (int)(24 * screen_width / 1031))
         self.inventory = inventory
         self.grid = DesktopGrid(screen, self.inventory)
@@ -176,7 +177,7 @@ class Desktop:
         elif title == "kernel.mem":
             kernel = next((file for file in self.files if file.name == "kernel.mem"), None)
             if kernel:
-                program = KernelPuzzle(self.screen, self.switch_scene, self.inventory)
+                program = KernelPuzzle(self.screen, self.switch_scene, self.inventory, self.music)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)
