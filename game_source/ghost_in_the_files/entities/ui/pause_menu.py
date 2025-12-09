@@ -3,8 +3,9 @@ from entities.ui.button import Button
 from settings import screen_width, screen_height, bar_height, button_color, button_hover_color
 
 class PauseMenu:
-    def __init__(self, x, y, width, height, switch_scene, screen):
+    def __init__(self, x, y, width, height, switch_scene, screen, music):
         self.screen = screen
+        self.music = music
         self.width = width
         self.height = height
         
@@ -35,7 +36,7 @@ class PauseMenu:
             hover_color = button_hover_color,
             text_color = (255, 255, 255),
             font = self.font,
-            callback = lambda: (self.switch_scene("main_menu"), self.toggle())
+            callback = lambda: (self.switch_scene("main_menu"), self.toggle(), self.music.play("assets/sounds/main_menu.ogg"))
         )
         self.buttons.append(shutdown_button)
         self.buttons.append(log_out_button)

@@ -50,6 +50,10 @@ class GameState:
 
     boot_dialogue_happened = False
     desktop_dialogue_happened = False
+    
+    master_volume = 100
+    music_volume = 100
+    sfx_volume = 60
 
     def set_flag(name, value = True):
         GameState.flags[name] = value
