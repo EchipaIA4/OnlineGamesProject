@@ -110,6 +110,9 @@ Functionality includes:
   * **ESC:** Pause game / Close current program window.
   * **Arrow Keys & Enter:** Navigate the Boot Menu.
 
+### Assets
+
+**The game sprites and music tracks are generated using artificial intelligence!**
 
 ## Pong
 

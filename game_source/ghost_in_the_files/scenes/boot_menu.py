@@ -4,11 +4,12 @@ from entities.game_state import GameState
 from entities.ui.button import Button
 
 class BootMenu:
-    def __init__(self, screen, switch_scene, cursor, dialogue):
+    def __init__(self, screen, switch_scene, cursor, dialogue, music):
         self.screen = screen
         self.switch_scene = switch_scene
         self.cursor = cursor
         self.dialogue = dialogue
+        self.music = music
         self.font = pygame.font.SysFont("Courier", 28)
         
         self.background = pygame.image.load("assets/sprites/backgrounds/background.png")
@@ -55,7 +56,7 @@ class BootMenu:
             hover_color = button_hover_color,
             text_color = text_color,
             font = self.font,
-            callback = lambda: self.switch_scene("main_menu"),
+            callback = lambda: self.exit(),
             sprite_path = "assets/sprites/ui/exit_button.png",
             sprite_hover_path = "assets/sprites/ui/exit_button.png",
             sprite_pressed_path = "assets/sprites/ui/exit_button.png"
@@ -79,6 +80,10 @@ class BootMenu:
         if GameState.desktop_dialogue_happened == False:
             self.dialogue.start_dialogue("assets/dialogues/desktop_dialogue.txt")
             GameState.desktop_dialogue_happened = True
+    
+    def exit(self):
+        self.switch_scene("main_menu")
+        self.music.play("assets/sounds/main_menu.ogg")
     
     def handle_event(self, event):
         if self.dialogue.active:

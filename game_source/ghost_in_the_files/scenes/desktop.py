@@ -19,11 +19,12 @@ from puzzles.network_puzzle import NetworkPuzzle
 from puzzles.kernel_puzzle import KernelPuzzle
 
 class Desktop:
-    def __init__(self, screen, inventory, switch_scene, cursor, os, dialogue):
+    def __init__(self, screen, inventory, switch_scene, cursor, os, dialogue, music):
         self.screen = screen
         self.switch_scene = switch_scene
         self.cursor = cursor
         self.dialogue = dialogue
+        self.music = music
         self.font = pygame.font.SysFont(None, (int)(24 * screen_width / 1031))
         self.inventory = inventory
         self.grid = DesktopGrid(screen, self.inventory)
@@ -32,7 +33,7 @@ class Desktop:
         self.files = []
         self.file_font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
         
-        self.pause_menu = PauseMenu(screen_width * 3 / 4, bar_height, screen_width / 4 - self.inventory.slot_size * 1.1, screen_height / 4.25, self.switch_scene, self.screen)
+        self.pause_menu = PauseMenu(screen_width * 3 / 4, bar_height, screen_width / 4 - self.inventory.slot_size * 1.1, screen_height / 4.25, self.switch_scene, self.screen, self.music)
         self.menu_button_rect = pygame.Rect(screen_width * 3 / 4 + 15, bar_height / 4, screen_width / 4 - 40, bar_height / 2)
         self.menu_button = Button(
             rect = pygame.Rect(screen_width * 3 / 4, 0, screen_width / 4 - 10, bar_height),
@@ -132,6 +133,7 @@ class Desktop:
             self.files.append(ram_file)
             self.files.append(cpu_file)
             self.files.append(network_file)
+            self.grid.files = self.files
     
     def open_program(self, title, content_callback = None):
         if self.active_program is not None:
@@ -176,7 +178,7 @@ class Desktop:
         elif title == "kernel.mem":
             kernel = next((file for file in self.files if file.name == "kernel.mem"), None)
             if kernel:
-                program = KernelPuzzle(self.screen, self.switch_scene, self.inventory)
+                program = KernelPuzzle(self.screen, self.switch_scene, self.inventory, self.music)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)
