@@ -15,7 +15,10 @@ class MusicManager():
         self.current_track = track_path
         pygame.mixer.music.fadeout(400)
         pygame.mixer.music.load(track_path)
-        pygame.mixer.music.set_volume(self.volume * self.master_volume)
+        if self.current_track == "assets/sounds/final_menu.ogg":
+            pygame.mixer.music.set_volume(self.volume * self.master_volume * 0.4)
+        else:
+            pygame.mixer.music.set_volume(self.volume * self.master_volume)
         pygame.mixer.music.play(-1, fade_ms = 400)
     
     def stop(self):
