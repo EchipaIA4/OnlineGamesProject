@@ -6,8 +6,8 @@ class Cursor:
         self.sprite = pygame.transform.scale(self.sprite, (24, 24))
         self.pos = pygame.mouse.get_pos()
         
-        self.click_in_sound = pygame.mixer.Sound("assets/sounds/ui/click_in.wav")
-        self.click_out_sound = pygame.mixer.Sound("assets/sounds/ui/click_out.wav")
+        self.click_in_sound = pygame.mixer.Sound("assets/sounds/ui/click_in.ogg")
+        self.click_out_sound = pygame.mixer.Sound("assets/sounds/ui/click_out.ogg")
         self.click_in_sound.set_volume(0.2)
         self.click_out_sound.set_volume(0.2)
         self.mouse_clicked = False
