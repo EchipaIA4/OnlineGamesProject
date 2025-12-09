@@ -2,6 +2,7 @@ import pygame
 from settings import screen_width, screen_height, button_color, button_hover_color, text_color
 from entities.game_state import GameState
 from scenes.desktop import Desktop
+from scenes.boot_menu import BootMenu
 from entities.inventory.inventory import Inventory
 from entities.ui.button import Button
 
@@ -60,6 +61,7 @@ class FinalMenu:
         
         self.inventory = Inventory()
         
+        self.scenes["boot_menu"] = BootMenu(self.screen, self.switch_scene, self.cursor, self.dialogue, self.music)
         self.scenes["os1"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os1", self.dialogue, self.music)
         self.scenes["os2"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os2", self.dialogue, self.music)
         self.switch_scene("main_menu")

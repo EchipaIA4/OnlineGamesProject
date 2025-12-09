@@ -28,4 +28,7 @@ class MusicManager():
     def set_volume(self, volume, master_volume):
         self.volume = volume
         self.master_volume = master_volume
-        pygame.mixer.music.set_volume(self.volume * self.master_volume)
+        if self.current_track == "assets/sounds/final_menu.ogg":
+            pygame.mixer.music.set_volume(self.volume * self.master_volume * 0.4)
+        else:
+            pygame.mixer.music.set_volume(self.volume * self.master_volume)

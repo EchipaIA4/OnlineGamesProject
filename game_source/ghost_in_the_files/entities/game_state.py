@@ -94,7 +94,7 @@ class GameState:
             "reward_given": False
         }
         GameState.cpu_puzzle_state = {
-            "cpu_cores": [0, 0, 0, 0],
+            "cpu_cores": [85, 40, 35, 0],
             "item_used": False,
             "win": False,
             "reward_given": False

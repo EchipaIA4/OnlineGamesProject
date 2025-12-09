@@ -133,6 +133,7 @@ class Desktop:
             self.files.append(ram_file)
             self.files.append(cpu_file)
             self.files.append(network_file)
+            self.grid.files = self.files
     
     def open_program(self, title, content_callback = None):
         if self.active_program is not None:
