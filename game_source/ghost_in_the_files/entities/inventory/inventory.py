@@ -1,5 +1,5 @@
 import pygame
-from settings import screen_width, screen_height, bar_height, slot_count, slot_color, slot_hovered_color, text_color
+from settings import screen_width, screen_height, bar_height, slot_count
 
 class Inventory:
     def __init__(self):
@@ -62,5 +62,5 @@ class Inventory:
                 screen.blit(item_sprite, (rect.centerx - item_sprite.get_width() / 2, rect.centery - item_sprite.get_height() / 2))
                 
                 if self.hovered_slot == i and pygame.time.get_ticks() <= self.name_visible_until:
-                    item_name = self.font.render(self.items[i].name, True, text_color)
+                    item_name = self.font.render(self.items[i].name, True, (255, 255, 255))
                     screen.blit(item_name, (rect.centerx - item_name.get_width() / 2, rect.y + item_name.get_height() * 0.5))

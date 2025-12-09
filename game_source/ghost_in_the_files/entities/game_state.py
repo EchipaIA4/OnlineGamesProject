@@ -30,7 +30,7 @@ class GameState:
     }
     
     cpu_puzzle_state = {
-        "cpu_cores": [0, 0, 0, 0],
+        "cpu_cores": [85, 40, 35, 0],
         "item_used": False,
         "win": False,
         "reward_given": False
@@ -47,6 +47,9 @@ class GameState:
     game_time_minutes = 6 * 60
     time_update = pygame.time.get_ticks()
     score_submitted = False
+
+    boot_dialogue_happened = False
+    desktop_dialogue_happened = False
 
     def set_flag(name, value = True):
         GameState.flags[name] = value
@@ -101,3 +104,5 @@ class GameState:
         }
         GameState.game_time_minutes = 6 * 60
         GameState.time_update = pygame.time.get_ticks()
+        GameState.boot_dialogue_happened = False
+        GameState.desktop_dialogue_happened = False

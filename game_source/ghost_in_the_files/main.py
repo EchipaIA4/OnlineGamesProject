@@ -6,6 +6,7 @@ from scenes.final_menu import FinalMenu
 from scenes.desktop import Desktop
 from entities.desktop.cursor import Cursor
 from entities.inventory.inventory import Inventory
+from entities.dialogue.dialogue import Dialogue
 
 pygame.init()
 surface = pygame.Surface((screen_width, screen_height))
@@ -15,6 +16,8 @@ clock = pygame.time.Clock()
 current_scene = None
 cursor = Cursor()
 inventory = Inventory()
+font = pygame.font.SysFont(None, 28)
+dialogue = Dialogue(surface, font)
 pygame.mouse.set_visible(False)
 
 scenes = {}
@@ -27,10 +30,10 @@ def switch_scene(scene_name):
     current_scene = scenes[scene_name]
 
 scenes["main_menu"] = MainMenu(surface, switch_scene, cursor)
-scenes["boot_menu"] = BootMenu(surface, switch_scene, cursor)
-scenes["os1"] = Desktop(surface, inventory, switch_scene, cursor, "os1")
-scenes["os2"] = Desktop(surface, inventory, switch_scene, cursor, "os2")
-scenes["final_menu"] = FinalMenu(surface, switch_scene, cursor, inventory, scenes)
+scenes["boot_menu"] = BootMenu(surface, switch_scene, cursor, dialogue)
+scenes["os1"] = Desktop(surface, inventory, switch_scene, cursor, "os1", dialogue)
+scenes["os2"] = Desktop(surface, inventory, switch_scene, cursor, "os2", dialogue)
+scenes["final_menu"] = FinalMenu(surface, switch_scene, cursor, inventory, scenes, dialogue)
 
 current_scene = scenes["main_menu"]
 

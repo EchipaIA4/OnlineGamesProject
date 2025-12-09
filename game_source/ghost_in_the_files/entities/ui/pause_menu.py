@@ -1,6 +1,6 @@
 import pygame
 from entities.ui.button import Button
-from settings import screen_width, screen_height, bar_height, button_color, button_hover_color, text_color
+from settings import screen_width, screen_height, bar_height, button_color, button_hover_color
 
 class PauseMenu:
     def __init__(self, x, y, width, height, switch_scene, screen):
@@ -24,7 +24,7 @@ class PauseMenu:
             text = "Log Out",
             color = button_color,
             hover_color = button_hover_color,
-            text_color = text_color,
+            text_color = (255, 255, 255),
             font = self.font,
             callback = lambda: (self.switch_scene("boot_menu"), self.toggle())
         )
@@ -33,7 +33,7 @@ class PauseMenu:
             text = "Shut down",
             color = button_color,
             hover_color = button_hover_color,
-            text_color = text_color,
+            text_color = (255, 255, 255),
             font = self.font,
             callback = lambda: (self.switch_scene("main_menu"), self.toggle())
         )
