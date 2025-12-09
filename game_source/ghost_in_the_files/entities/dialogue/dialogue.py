@@ -62,6 +62,10 @@ class Dialogue:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                 self.advance_line()
+            elif event.key == pygame.K_ESCAPE:
+                self.active = False
+                self.lines = []
+                self.current_line = 0
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = event.pos
             
