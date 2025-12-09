@@ -6,10 +6,11 @@ from entities.ui.button import Button
 from entities.items.memory_chip import MemoryChip
 
 class DiskPuzzle:
-    def __init__(self, screen, file_icon, inventory, code = "9345"):
+    def __init__(self, screen, file_icon, inventory, dialogue, code = "9345"):
         self.screen = screen
         self.file_icon = file_icon
         self.inventory = inventory
+        self.dialogue = dialogue
         
         self.code = code
         self.input = GameState.locked_program_state.get("input", ["-", "-", "-", "-"]).copy()
@@ -78,6 +79,8 @@ class DiskPuzzle:
             memory_chip = MemoryChip(slot_size = self.inventory.slot_size)
             self.inventory.add_item(memory_chip)
             GameState.add_log("[SYSTEM] Disk sectors verified. Data integrity confirmed.")
+
+            self.dialogue.start_dialogue("assets/dialogues/disk_puzzle_dialogue.txt")
         else:
             self.message = "Wrong code!"
             

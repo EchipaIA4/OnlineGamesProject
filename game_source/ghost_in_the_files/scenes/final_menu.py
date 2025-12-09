@@ -6,12 +6,13 @@ from entities.inventory.inventory import Inventory
 from entities.ui.button import Button
 
 class FinalMenu:
-    def __init__(self, screen, switch_scene, cursor, inventory, scenes):
+    def __init__(self, screen, switch_scene, cursor, inventory, scenes, dialogue):
         self.screen = screen
         self.switch_scene = switch_scene
         self.inventory = inventory
         self.font = pygame.font.SysFont(None, (int)(44 * screen_width / 1031))
         self.cursor = cursor
+        self.dialogue = dialogue
         self.scenes = scenes
         
         self.background = pygame.image.load("assets/sprites/backgrounds/final_menu.png")
@@ -58,8 +59,8 @@ class FinalMenu:
         
         self.inventory = Inventory()
         
-        self.scenes["os1"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os1")
-        self.scenes["os2"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os2")
+        self.scenes["os1"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os1", self.dialogue)
+        self.scenes["os2"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os2", self.dialogue)
         self.switch_scene("main_menu")
           
     def handle_event(self, event):

@@ -4,13 +4,13 @@ from entities.items.system_core import SystemCore
 from entities.programs.program_window import ProgramWindow
 
 class CpuPuzzle():
-    def __init__(self, screen, inventory):
+    def __init__(self, screen, inventory, dialogue):
         self.screen = screen
         self.inventory = inventory
+        self.dialogue = dialogue
         self.font = pygame.font.SysFont(None, 22)
 
-        self.cpu_cores = [85, 40, 35, 0]
-        GameState.cpu_puzzle_state["cpu_cores"] = self.cpu_cores
+        self.cpu_cores = GameState.cpu_puzzle_state["cpu_cores"]
         
         self.window = ProgramWindow(
             "CpuPuzzle",
@@ -80,6 +80,7 @@ class CpuPuzzle():
                 if self.cpu_cores[0] <= 30 and self.cpu_cores[1] <= 30 and self.cpu_cores[2] <= 30 and self.cpu_cores[3] <= 30:
                     GameState.cpu_puzzle_state["win"] = True
                     GameState.add_log("[SYSTEM] All CPU cores stabilized below safe threshold.")
+                    self.dialogue.start_dialogue("assets/dialogues/cpu_puzzle_dialogue.txt")
             
             elif GameState.cpu_puzzle_state["item_used"] == False:
                 if self.core4_broken_rect.collidepoint(mouse_pos):
@@ -113,7 +114,7 @@ class CpuPuzzle():
             if i == 3 and GameState.cpu_puzzle_state["item_used"] == False:
                 core_label = self.font.render("BROKEN", True, (255, 255, 255))
             else:
-                core_label = self.font.render(f"{self.cpu_cores[i]}%", True, (255, 255, 255))
+                core_label = self.font.render(f"{GameState.cpu_puzzle_state["cpu_cores"][i]}%", True, (255, 255, 255))
             x = self.x + self.core1_sprite.get_width() / 2
             if i == 1:
                 x = self.x + self.core1_sprite.get_width() + self.gap + self.core2_sprite.get_width() / 2
@@ -127,12 +128,12 @@ class CpuPuzzle():
             self.screen.blit(core_label, (x - core_label.get_width() / 2, self.y + self.core1_sprite.get_height() + 25))
             
             rect_size = [15, 15]
-            if self.cpu_cores[i] <= 30:
+            if GameState.cpu_puzzle_state["cpu_cores"][i] <= 30:
                 if i == 3 and GameState.cpu_puzzle_state["item_used"] == False:
                     color = (240, 140, 109)
                 else:
                     color = (135, 200, 179)
-            elif self.cpu_cores[i] >= 80:
+            elif GameState.cpu_puzzle_state["cpu_cores"][i] >= 80:
                 color = (240, 140, 109)
             else:
                 color = (240, 201, 127)
