@@ -1,5 +1,5 @@
 import pygame
-from settings import screen_width, screen_height, program_width, program_height, program_header_height, text_color
+from settings import screen_width, screen_height, program_width, program_height, program_header_height
 
 class TextViewerProgram:
     def __init__(self, screen, text):
@@ -7,7 +7,7 @@ class TextViewerProgram:
         self.text = text
         self.font = pygame.font.SysFont(None, (int)(24 * screen_width / 1031))
         self.x = (screen_width - program_width + 100) / 2
-        self.y = (screen_height - program_height) / 2 + program_header_height
+        self.y = (screen_height - program_height) / 2 + program_header_height - 10
         self.line_height = 25 * screen_height / 580
     
     def handle_event(self, event):
@@ -20,5 +20,5 @@ class TextViewerProgram:
         lines = self.text.split("\n")
         off_y = self.y + program_header_height + 20 * screen_height / 580
         for line in lines:
-            self.screen.blit(self.font.render(line, True, text_color), (self.x + 20 * screen_width / 1031, off_y))
+            self.screen.blit(self.font.render(line, True, (255, 255, 255)), (self.x + 20 * screen_width / 1031, off_y))
             off_y += self.line_height

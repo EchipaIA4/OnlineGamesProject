@@ -1,5 +1,5 @@
 import pygame
-from settings import file_width, file_height, text_color, slot_color, screen_width
+from settings import file_width, file_height
 
 class FileMenu:
     def __init__(self, screen, files, x, y, width=260, display_file_icon = True):
@@ -62,8 +62,8 @@ class FileMenu:
                 icon_sprite = pygame.transform.scale(self.files[i].sprite, (file_width / 2, file_height / 2))
                 self.screen.blit(icon_sprite, (rect.x + 30, rect.centery - icon_sprite.get_height() / 2))
             
-                label = self.font.render(self.files[i].name, True, text_color)
+                label = self.font.render(self.files[i].name, True, (255, 255, 255))
                 self.screen.blit(label, (rect.x + 70, rect.y + (self.height - label.get_height()) / 2))
             else:
-                label = self.font.render(self.files[i].name, True, text_color)
+                label = self.font.render(self.files[i].name, True, (255, 255, 255))
                 self.screen.blit(label, (rect.x + 52, rect.y + (self.height - label.get_height()) / 2))
