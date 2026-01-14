@@ -109,6 +109,7 @@ Functionality includes:
   * **Mouse:** Point and click to interact with files, buttons, and puzzle elements.
   * **ESC:** Pause game / Close current program window.
   * **Arrow Keys & Enter:** Navigate the Boot Menu.
+  * **Number keys** Navigate the inventory as needed.
 
 
 ## Pong

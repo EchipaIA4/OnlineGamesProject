@@ -5,7 +5,6 @@ import random
 import json
 import traceback
 
-# --- CONSTANTS ---
 WIDTH, HEIGHT = 800, 600
 GAME_TITLE = "PONG"
 WHITE = (255, 255, 255)
@@ -13,7 +12,6 @@ BLACK = (0, 0, 0)
 GREEN = (50, 255, 50)
 RED = (255, 50, 50)
 
-# --- GLOBAL STATE ---
 status_msg = "Network: Ready"
 status_color = WHITE
 

@@ -6,7 +6,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     
-    # Relationship: A user can have many scores
+    # user can have many scores
     scores = db.relationship('Score', backref='user', lazy=True)
 
 class Score(db.Model):
@@ -14,5 +14,5 @@ class Score(db.Model):
     score = db.Column(db.Integer, nullable=False)
     game_id = db.Column(db.String(50), nullable=False)
     
-    # Foreign Key
+    # key
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
