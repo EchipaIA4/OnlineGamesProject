@@ -17,14 +17,11 @@ def home():
 @main_bp.route('/game/<game_id>')
 @login_required
 def play_game(game_id):
-    # This points to static/games/<game_id>/index.html
-    # Ensure you moved your games to the root 'static' folder
     game_url = url_for('static', filename=f'games/{game_id}/index.html')
     return render_template('game_player.html', game_url=game_url, title=game_id)
 
 @main_bp.route('/leaderboard')
 def leaderboard():
-    # Improved Query: Join User and Score, Order by Score Descending
     top_scores = db.session.query(
         Score.score,
         Score.game_id,
