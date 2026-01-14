@@ -4,10 +4,12 @@ from entities.game_state import GameState
 from entities.ui.button import Button
 
 class BootMenu:
-    def __init__(self, screen, switch_scene, cursor):
+    def __init__(self, screen, switch_scene, cursor, dialogue, music):
         self.screen = screen
         self.switch_scene = switch_scene
         self.cursor = cursor
+        self.dialogue = dialogue
+        self.music = music
         self.font = pygame.font.SysFont("Courier", 28)
         
         self.background = pygame.image.load("assets/sprites/backgrounds/background.png")
@@ -28,7 +30,7 @@ class BootMenu:
             hover_color = button_hover_color,
             text_color = text_color,
             font = self.font,
-            callback = lambda: self.switch_scene("os1"),
+            callback = lambda: self.power_os("os1"),
             sprite_path = "assets/sprites/ui/ciphershell_button.png",
             sprite_hover_path = "assets/sprites/ui/ciphershell_button.png",
             sprite_pressed_path = "assets/sprites/ui/ciphershell_button.png",
@@ -41,7 +43,7 @@ class BootMenu:
             hover_color = button_hover_color,
             text_color = text_color,
             font = self.font,
-            callback = lambda: self.switch_scene("os2"),
+            callback = lambda: self.power_os("os2"),
             sprite_path = "assets/sprites/ui/kernelgate_button.png",
             sprite_hover_path = "assets/sprites/ui/kernelgate_button.png",
             sprite_pressed_path = "assets/sprites/ui/kernelgate_button.png"
@@ -54,7 +56,7 @@ class BootMenu:
             hover_color = button_hover_color,
             text_color = text_color,
             font = self.font,
-            callback = lambda: self.switch_scene("main_menu"),
+            callback = lambda: self.exit(),
             sprite_path = "assets/sprites/ui/exit_button.png",
             sprite_hover_path = "assets/sprites/ui/exit_button.png",
             sprite_pressed_path = "assets/sprites/ui/exit_button.png"
@@ -68,8 +70,26 @@ class BootMenu:
         GameState.add_log("Desktop environment loaded successfully!")
         GameState.add_log("[WARNING] Core 1 load exceeds safe threshold.")
         GameState.add_log("[ERROR] Core 4 has gone completely inert. No thermal activity detected.")
+        
+        if GameState.boot_dialogue_happened == False:
+            self.dialogue.start_dialogue("assets/dialogues/boot_menu_dialogue.txt")
+            GameState.boot_dialogue_happened = True
+    
+    def power_os(self, name):
+        self.switch_scene(name)
+        if GameState.desktop_dialogue_happened == False:
+            self.dialogue.start_dialogue("assets/dialogues/desktop_dialogue.txt")
+            GameState.desktop_dialogue_happened = True
+    
+    def exit(self):
+        self.switch_scene("main_menu")
+        self.music.play("assets/sounds/main_menu.ogg")
     
     def handle_event(self, event):
+        if self.dialogue.active:
+            self.dialogue.handle_event(event)
+            return
+        
         self.cursor.handle_event(event)
         for button in self.buttons:
             button.handle_event(event)
@@ -84,6 +104,10 @@ class BootMenu:
     
     def update(self):
         self.cursor.update()
+
+        if self.dialogue.active:
+            return
+        
         for i, button in enumerate(self.buttons):
             button.update()
             if button.hovered:
@@ -98,4 +122,6 @@ class BootMenu:
         self.screen.blit(self.boot_text, (screen_width / 2 - self.boot_text.get_width() / 2, screen_height / 6))
         self.screen.blit(self.arrow, (self.buttons[self.selected_index].rect.x - 50, self.buttons[self.selected_index].rect.y + self.buttons[self.selected_index].rect.height / 2 - self.arrow.get_height() / 2))
         
+        if self.dialogue.active:
+            self.dialogue.render()
         self.cursor.render(self.screen)

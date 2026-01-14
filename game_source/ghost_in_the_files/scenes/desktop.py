@@ -1,5 +1,5 @@
 import pygame
-from settings import bar_color, screen_width, screen_height, bar_height, text_color, button_hover_color, desktop_grid_rows, desktop_grid_cols
+from settings import bar_color, screen_width, screen_height, bar_height, text_color, button_hover_color, desktop_grid_rows, desktop_grid_cols, text_color
 from entities.game_state import GameState
 from entities.programs.program_window import ProgramWindow
 from entities.ui.button import Button
@@ -19,10 +19,12 @@ from puzzles.network_puzzle import NetworkPuzzle
 from puzzles.kernel_puzzle import KernelPuzzle
 
 class Desktop:
-    def __init__(self, screen, inventory, switch_scene, cursor, os = "os1"):
+    def __init__(self, screen, inventory, switch_scene, cursor, os, dialogue, music):
         self.screen = screen
         self.switch_scene = switch_scene
         self.cursor = cursor
+        self.dialogue = dialogue
+        self.music = music
         self.font = pygame.font.SysFont(None, (int)(24 * screen_width / 1031))
         self.inventory = inventory
         self.grid = DesktopGrid(screen, self.inventory)
@@ -31,7 +33,7 @@ class Desktop:
         self.files = []
         self.file_font = pygame.font.SysFont(None, (int)(22 * screen_width / 1031))
         
-        self.pause_menu = PauseMenu(screen_width * 3 / 4, bar_height, screen_width / 4 - self.inventory.slot_size * 1.1, screen_height / 4.25, self.switch_scene, self.screen)
+        self.pause_menu = PauseMenu(screen_width * 3 / 4, bar_height, screen_width / 4 - self.inventory.slot_size * 1.1, screen_height / 4.25, self.switch_scene, self.screen, self.music)
         self.menu_button_rect = pygame.Rect(screen_width * 3 / 4 + 15, bar_height / 4, screen_width / 4 - 40, bar_height / 2)
         self.menu_button = Button(
             rect = pygame.Rect(screen_width * 3 / 4, 0, screen_width / 4 - 10, bar_height),
@@ -131,6 +133,7 @@ class Desktop:
             self.files.append(ram_file)
             self.files.append(cpu_file)
             self.files.append(network_file)
+            self.grid.files = self.files
     
     def open_program(self, title, content_callback = None):
         if self.active_program is not None:
@@ -155,27 +158,27 @@ class Desktop:
         elif title == "disk.mem":
             locked_file = next((file for file in self.files if file.name == "disk.mem"), None)
             if locked_file:
-                program = DiskPuzzle(self.screen, locked_file, self.inventory)
+                program = DiskPuzzle(self.screen, locked_file, self.inventory, self.dialogue)
                 self.active_program = program.window
         elif title == "ram.mem":
             ram = next((file for file in self.files if file.name == "ram.mem"), None)
             if ram:
-                program = RamPuzzle(self.screen, self.inventory)
+                program = RamPuzzle(self.screen, self.inventory, self.dialogue)
                 self.active_program = program.window
         elif title == "cpu.mem":
             cpu = next((file for file in self.files if file.name == "cpu.mem"), None)
             if cpu:
-                program = CpuPuzzle(self.screen, self.inventory)
+                program = CpuPuzzle(self.screen, self.inventory, self.dialogue)
                 self.active_program = program.window
         elif title == "network.exe":
             network = next((file for file in self.files if file.name == "network.exe"), None)
             if network:
-                program = NetworkPuzzle(self.screen, self.inventory)
+                program = NetworkPuzzle(self.screen, self.inventory, self.dialogue)
                 self.active_program = program.window
         elif title == "kernel.mem":
             kernel = next((file for file in self.files if file.name == "kernel.mem"), None)
             if kernel:
-                program = KernelPuzzle(self.screen, self.switch_scene, self.inventory)
+                program = KernelPuzzle(self.screen, self.switch_scene, self.inventory, self.music)
                 self.active_program = program.window
         else:
             self.active_program = ProgramWindow(title)
@@ -184,6 +187,10 @@ class Desktop:
     
     def handle_event(self, event):
         self.cursor.handle_event(event)
+        if self.dialogue.active:
+            self.dialogue.handle_event(event)
+            return
+        
         if self.active_program and self.active_program.active:
             self.active_program.handle_event(event)
         elif self.active_program and not self.active_program.active:
@@ -205,6 +212,9 @@ class Desktop:
     
     def update(self):
         self.cursor.update()
+        if self.dialogue.active:
+            return
+        
         self.pause_menu.update()
         self.menu_button.update()
         if self.active_program and self.active_program.active:
@@ -236,4 +246,8 @@ class Desktop:
         
         self.inventory.render(self.screen)
         self.pause_menu.render()
+        
+        if self.dialogue.active:
+            self.dialogue.render()
+        
         self.cursor.render(self.screen)

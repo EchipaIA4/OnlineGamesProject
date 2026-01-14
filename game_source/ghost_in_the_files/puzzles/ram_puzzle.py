@@ -1,14 +1,15 @@
 import pygame
-from settings import screen_width, screen_height, program_width, program_height, program_header_height, button_color, button_hover_color, text_color
+from settings import screen_width, screen_height, program_width, program_height, program_header_height, button_color, button_hover_color
 from entities.game_state import GameState
 from entities.items.null_pointer import NullPointer
 from entities.programs.program_window import ProgramWindow
 from entities.ui.button import Button
 
 class RamPuzzle():
-    def __init__(self, screen, inventory):
+    def __init__(self, screen, inventory, dialogue):
         self.screen = screen
         self.inventory = inventory
+        self.dialogue = dialogue
         
         self.window = ProgramWindow(
             "RamPuzzle",
@@ -40,7 +41,7 @@ class RamPuzzle():
             text = "Start",
             color = button_color,
             hover_color = button_hover_color,
-            text_color = text_color,
+            text_color = (255, 255, 255),
             font = pygame.font.SysFont(None, 24),
             callback = lambda: self.start_game(),
         )
@@ -81,6 +82,8 @@ class RamPuzzle():
             GameState.ram_puzzle_state["win"] = True
             self.start_button.no_callback = True
             GameState.add_log("[SYSTEM] RAM successfully restored. All volatile memory cleared.")
+            
+            self.dialogue.start_dialogue("assets/dialogues/ram_puzzle_dialogue.txt")
     
     def on_item_use(self, item):
         if item.name.lower() == "memory chip":
@@ -144,5 +147,5 @@ class RamPuzzle():
         color = (0, 180, 80) if GameState.ram_puzzle_state["memory_chip_inserted"] else (80, 80, 80)
         pygame.draw.rect(self.screen, color, self.slot_rect, border_radius = 6)
         
-        label = pygame.font.SysFont(None, 20).render("Memory Chip Slot", True, text_color)
+        label = pygame.font.SysFont(None, 20).render("Memory Chip Slot", True, (255, 255, 255))
         self.screen.blit(label, (self.slot_rect.centerx - label.get_width() / 2, self.slot_rect.y - 25))

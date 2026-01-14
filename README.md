@@ -111,6 +111,9 @@ Functionality includes:
   * **Arrow Keys & Enter:** Navigate the Boot Menu.
   * **Number keys** Navigate the inventory as needed.
 
+### Assets
+
+**The game sprites and music tracks are generated using artificial intelligence!**
 
 ## Pong
 

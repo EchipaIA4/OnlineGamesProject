@@ -91,5 +91,5 @@ class FileIcon:
     
     def render(self, surface):
         surface.blit(self.sprite, self.rect.topleft)
-        label = self.font.render(self.name, True, text_color)
+        label = self.font.render(self.name, True, (255, 255, 255))
         surface.blit(label, (self.rect.centerx - label.get_width() / 2, self.rect.bottom + 6))

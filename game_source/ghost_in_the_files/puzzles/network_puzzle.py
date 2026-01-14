@@ -89,9 +89,10 @@ class Edge():
         screen.blit(sprite, rect.topleft)
  
 class NetworkPuzzle():
-    def __init__(self, screen, inventory):
+    def __init__(self, screen, inventory, dialogue):
         self.screen = screen
         self.inventory = inventory
+        self.dialogue = dialogue
         
         self.window = ProgramWindow(
             "NetworkPuzzle",
@@ -154,6 +155,7 @@ class NetworkPuzzle():
                 for node in self.nodes.values():
                     node.active = True
                 GameState.add_log("[SYSTEM] Data pathways fully restored. Network operational.")
+                self.dialogue.start_dialogue("assets/dialogues/network_puzzle_dialogue.txt")
     
     def check_win(self):
         winning_edges = {("D", "C"), ("C", "null"), ("D", "B"), ("D", "A"), ("A", "B"), ("A", "null")}
@@ -206,7 +208,7 @@ class NetworkPuzzle():
                         GameState.network_puzzle_state["win"] = True
                         for node in self.nodes.values():
                             node.active = True
-
+                        self.dialogue.start_dialogue("assets/dialogues/network_puzzle_dialogue.txt")
     
     def update(self):
         pass

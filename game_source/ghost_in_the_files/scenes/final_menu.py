@@ -2,16 +2,19 @@ import pygame
 from settings import screen_width, screen_height, button_color, button_hover_color, text_color
 from entities.game_state import GameState
 from scenes.desktop import Desktop
+from scenes.boot_menu import BootMenu
 from entities.inventory.inventory import Inventory
 from entities.ui.button import Button
 
 class FinalMenu:
-    def __init__(self, screen, switch_scene, cursor, inventory, scenes):
+    def __init__(self, screen, switch_scene, cursor, inventory, scenes, dialogue, music):
         self.screen = screen
         self.switch_scene = switch_scene
         self.inventory = inventory
         self.font = pygame.font.SysFont(None, (int)(44 * screen_width / 1031))
         self.cursor = cursor
+        self.dialogue = dialogue
+        self.music = music
         self.scenes = scenes
         
         self.background = pygame.image.load("assets/sprites/backgrounds/final_menu.png")
@@ -58,9 +61,11 @@ class FinalMenu:
         
         self.inventory = Inventory()
         
-        self.scenes["os1"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os1")
-        self.scenes["os2"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os2")
+        self.scenes["boot_menu"] = BootMenu(self.screen, self.switch_scene, self.cursor, self.dialogue, self.music)
+        self.scenes["os1"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os1", self.dialogue, self.music)
+        self.scenes["os2"] = Desktop(self.screen, self.inventory, self.switch_scene, self.cursor, "os2", self.dialogue, self.music)
         self.switch_scene("main_menu")
+        self.music.play("assets/sounds/main_menu.ogg")
           
     def handle_event(self, event):
         self.cursor.handle_event(event)
