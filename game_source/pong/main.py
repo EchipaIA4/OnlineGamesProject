@@ -54,7 +54,6 @@ async def submit_score_native(score):
             status_color = RED
             
     except Exception as e:
-        # Print error to screen and console
         status_msg = f"Err: {str(e)[:20]}"
         status_color = RED
         print(f"Full Error: {e}")

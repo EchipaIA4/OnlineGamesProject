@@ -18,7 +18,7 @@
                 {% if scores %}
                     {% for score in scores %}
                     <tr>
-                        <td>{{ loop.index }}</td> <!-- loop.index gives 1, 2, 3, etc. -->
+                        <td>{{ loop.index }}</td>
                         <td>{{ score.username }}</td>
                         <td>{{ score.game_id | capitalize }}</td>
                         <td>{{ score.score }}</td>
